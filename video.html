@@ -1,0 +1,403 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<title>Energy Market — Motion 9:16</title>
+<style>
+  @font-face {
+    font-family: 'Plus Jakarta Sans';
+    src: url('assets/PlusJakartaSans.woff2') format('woff2');
+    font-weight: 200 800;
+  }
+  :root {
+    --blue: #2547d6;
+    --blue-2: #3a5ae8;
+    --blue-light: #a9b8f2;
+    --navy: #142a5e;
+    --navy-deep: #101a60;
+    --ink: #0e1d40;
+    --gold: #c6a55c;
+    --gold-light: #efe3c3;
+    --white: #ffffff;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { width: 1080px; height: 1920px; overflow: hidden; background: var(--navy-deep); }
+  body { font-family: 'Plus Jakarta Sans', sans-serif; color: var(--white); -webkit-font-smoothing: antialiased; }
+
+  #stage { position: relative; width: 1080px; height: 1920px; overflow: hidden;
+    background: radial-gradient(120% 70% at 80% 10%, #3a5ae8 0%, #2547d6 30%, #1a339e 60%, #101a60 100%); }
+  #bg { position: absolute; inset: 0; }
+  .glow { position: absolute; border-radius: 50%; filter: blur(90px); }
+
+  .abs { position: absolute; left: 0; width: 1080px; will-change: transform, opacity; }
+  .center { text-align: center; }
+  .pad { padding: 0 90px; }
+
+  .pill { display: inline-block; padding: 16px 34px; border-radius: 999px; font-size: 32px; font-weight: 700;
+    letter-spacing: .02em; background: rgba(255,255,255,.12); border: 2px solid rgba(255,255,255,.28); }
+  .pill.gold { background: rgba(198,165,92,.18); border-color: rgba(198,165,92,.7); color: var(--gold-light); }
+
+  .h1 { font-size: 108px; font-weight: 800; line-height: 1.02; letter-spacing: -.035em; }
+  .h2 { font-size: 88px; font-weight: 800; line-height: 1.05; letter-spacing: -.03em; }
+  .body { font-size: 44px; font-weight: 500; line-height: 1.35; color: rgba(255,255,255,.85); }
+  .accent { color: var(--blue-light); }
+  .gold-t { color: var(--gold); }
+  .line { display: block; }
+
+  .card { background: rgba(255,255,255,.1); border: 2px solid rgba(255,255,255,.22); border-radius: 36px;
+    box-shadow: 0 30px 80px rgba(8,14,50,.35); }
+
+  /* Scene 1 */
+  #s1-chart { position: absolute; left: 90px; top: 900px; width: 900px; height: 520px; }
+  #s1-badge { position: absolute; left: 0; top: 1420px; width: 1080px; text-align: center; }
+  .big-stat { font-size: 210px; font-weight: 800; letter-spacing: -.05em; line-height: 1; }
+
+  /* Scene 2 */
+  .logo-card { width: 560px; height: 300px; margin: 0 auto; background: #fff; border-radius: 44px;
+    display: flex; align-items: center; justify-content: center; box-shadow: 0 40px 100px rgba(8,14,50,.45); }
+  .logo-card img { width: 430px; }
+  .brand { font-size: 56px; font-weight: 800; letter-spacing: -.02em; }
+  .brand small { display: block; font-size: 26px; font-weight: 600; letter-spacing: .22em; color: rgba(255,255,255,.65); margin-top: 10px; }
+
+  /* Scene 3 */
+  .co { position: absolute; width: 124px; height: 124px; margin: -62px 0 0 -62px; border-radius: 50%;
+    background: #fff; display: flex; align-items: center; justify-content: center; box-shadow: 0 16px 40px rgba(8,14,50,.35); }
+  .co svg { width: 64px; height: 64px; }
+  #s3-hub { position: absolute; left: 540px; top: 1060px; width: 360px; height: 360px; margin: -180px 0 0 -180px;
+    border-radius: 50%; background: radial-gradient(circle at 35% 30%, #fff 0%, #eef0fb 60%, #c3cef6 100%);
+    color: var(--ink); display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center;
+    box-shadow: 0 0 0 16px rgba(255,255,255,.12), 0 0 0 34px rgba(255,255,255,.06), 0 40px 90px rgba(8,14,50,.5); }
+  #s3-hub b { font-size: 130px; font-weight: 800; line-height: 1; color: var(--blue); letter-spacing: -.04em; }
+  #s3-hub span { font-size: 30px; font-weight: 700; margin-top: 8px; line-height: 1.2; }
+  .ring { position: absolute; left: 540px; top: 1060px; border-radius: 50%; border: 3px solid rgba(198,165,92,.8); }
+
+  /* Scene 4 */
+  .step { position: absolute; left: 90px; width: 900px; height: 190px; display: flex; align-items: center; gap: 36px; padding: 0 40px; }
+  .step .num { flex: 0 0 110px; height: 110px; border-radius: 50%; background: #fff; color: var(--blue);
+    font-size: 44px; font-weight: 800; display: flex; align-items: center; justify-content: center; }
+  .step .txt b { display: block; font-size: 46px; font-weight: 800; letter-spacing: -.02em; line-height: 1.1; }
+  .step .txt span { display: inline-block; margin-top: 12px; font-size: 28px; font-weight: 700; color: var(--gold-light);
+    background: rgba(198,165,92,.2); border: 2px solid rgba(198,165,92,.6); padding: 6px 18px; border-radius: 999px; }
+  #s4-rail { position: absolute; left: 219px; top: 690px; width: 6px; border-radius: 3px; background: var(--gold); }
+
+  /* Scene 5 */
+  .stat-block { position: absolute; left: 90px; width: 900px; padding: 56px 60px; }
+  .stat-block .v { font-size: 220px; font-weight: 800; letter-spacing: -.05em; line-height: .95; }
+  .stat-block .l { font-size: 46px; font-weight: 700; margin-top: 18px; line-height: 1.2; }
+
+  /* Scene 6 */
+  .cta { display: inline-flex; align-items: center; gap: 22px; background: #fff; color: var(--blue); border-radius: 28px;
+    padding: 40px 64px; font-size: 52px; font-weight: 800; letter-spacing: -.02em; box-shadow: 0 30px 80px rgba(8,14,50,.45); }
+  .url { font-size: 58px; font-weight: 800; letter-spacing: -.01em; }
+
+  /* Recentrage vertical par scène */
+  #s1, #s2, #s3, #s4, #s5, #s6 { position: absolute; inset: 0; }
+  #s2 { top: 110px; } #s4 { top: 60px; } #s5 { top: 90px; } #s6 { top: 110px; }
+
+  /* Transition wipes */
+  .wipe { position: absolute; top: -300px; height: 2520px; width: 1500px; left: 0; transform-origin: center; }
+</style>
+</head>
+<body>
+<div id="stage">
+  <svg id="bg" width="1080" height="1920" viewBox="0 0 1080 1920"></svg>
+  <div class="glow" id="glow1" style="width:700px;height:700px;background:rgba(58,90,232,.55);"></div>
+  <div class="glow" id="glow2" style="width:520px;height:520px;background:rgba(198,165,92,.22);"></div>
+
+  <!-- ============ SCENE 1 — Accroche ============ -->
+  <div id="s1">
+    <div class="abs center" id="s1-pill" style="top:300px"><span class="pill">Entreprises &amp; collectivités</span></div>
+    <div class="abs center pad h1" id="s1-t1" style="top:420px">Votre facture</div>
+    <div class="abs center pad h1" id="s1-t2" style="top:530px">d'énergie</div>
+    <div class="abs center pad h1 gold-t" id="s1-t3" style="top:640px">explose&nbsp;?</div>
+    <svg id="s1-chart" viewBox="0 0 900 520">
+      <defs>
+        <linearGradient id="area" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0" stop-color="#c6a55c" stop-opacity=".45"/>
+          <stop offset="1" stop-color="#c6a55c" stop-opacity="0"/>
+        </linearGradient>
+      </defs>
+      <g id="s1-grid" stroke="rgba(255,255,255,.12)" stroke-width="2"></g>
+      <path id="s1-area" fill="url(#area)"/>
+      <path id="s1-line" fill="none" stroke="#c6a55c" stroke-width="10" stroke-linecap="round" stroke-linejoin="round"/>
+      <circle id="s1-dot" r="18" fill="#fff" stroke="#c6a55c" stroke-width="8"/>
+    </svg>
+    <div id="s1-badge">
+      <div class="big-stat"><span id="s1-count">+0</span><span style="font-size:120px">%</span></div>
+      <div class="body" style="margin-top:6px">par an en moyenne depuis 10&nbsp;ans</div>
+    </div>
+  </div>
+
+  <!-- ============ SCENE 2 — La solution ============ -->
+  <div id="s2">
+    <div class="abs center" id="s2-logo" style="top:380px"><div class="logo-card"><img src="assets/logo.png" alt=""></div></div>
+    <div class="abs center brand" id="s2-brand" style="top:730px">Energy Market Group<small>CABINET DE CONSEIL ÉNERGÉTIQUE</small></div>
+    <div class="abs center pad h1" id="s2-t1" style="top:960px">On négocie</div>
+    <div class="abs center pad h1 accent" id="s2-t2" style="top:1070px">pour vous.</div>
+    <div class="abs center pad body" id="s2-sub" style="top:1260px">Courtier indépendant en <b style="color:#fff">gaz</b> &amp; <b style="color:#fff">électricité</b>, issu des salles de marché.</div>
+  </div>
+
+  <!-- ============ SCENE 3 — Groupement d'achat ============ -->
+  <div id="s3">
+    <div class="abs center" id="s3-pill" style="top:300px"><span class="pill gold">Notre levier</span></div>
+    <div class="abs center pad h2" id="s3-t1" style="top:410px">Le groupement</div>
+    <div class="abs center pad h2 accent" id="s3-t2" style="top:505px">d'achat sectoriel</div>
+    <div id="s3-cos"></div>
+    <div class="ring" id="s3-ring1"></div>
+    <div class="ring" id="s3-ring2"></div>
+    <div id="s3-hub"><b>+</b><span>de volume<br>= de meilleurs prix</span></div>
+    <div class="abs center pad body" id="s3-sub" style="top:1400px">On regroupe les volumes de votre secteur pour négocier <b style="color:#fff">directement les marges</b> des fournisseurs.</div>
+  </div>
+
+  <!-- ============ SCENE 4 — Méthode ============ -->
+  <div id="s4">
+    <div class="abs center pad h2" id="s4-t1" style="top:320px">4 étapes.</div>
+    <div class="abs center pad h2 gold-t" id="s4-t2" style="top:415px">Zéro contrainte.</div>
+    <div id="s4-rail"></div>
+    <div class="step card" id="s4-c1" style="top:600px"><div class="num">01</div><div class="txt"><b>Envoyez votre facture</b><span>Démarrage immédiat</span></div></div>
+    <div class="step card" id="s4-c2" style="top:820px"><div class="num">02</div><div class="txt"><b>Analyse &amp; éligibilité</b><span>Sous 48h</span></div></div>
+    <div class="step card" id="s4-c3" style="top:1040px"><div class="num">03</div><div class="txt"><b>Mise en concurrence</b><span>Négociation directe</span></div></div>
+    <div class="step card" id="s4-c4" style="top:1260px"><div class="num">04</div><div class="txt"><b>Vous décidez</b><span>Sans engagement</span></div></div>
+  </div>
+
+  <!-- ============ SCENE 5 — Preuves ============ -->
+  <div id="s5">
+    <div class="stat-block card" id="s5-a" style="top:330px">
+      <div class="v gold-t">0&nbsp;€</div>
+      <div class="l">d'honoraires pour vous.<br><span style="color:rgba(255,255,255,.7);font-weight:600">Prestation entièrement gratuite.</span></div>
+    </div>
+    <div class="stat-block card" id="s5-b" style="top:900px">
+      <div class="v"><span id="s5-count">0</span><span style="font-size:130px">%</span></div>
+      <div class="l">du risque porté par le cabinet.<br><span style="color:rgba(255,255,255,.7);font-weight:600">Obligation de résultat.</span></div>
+    </div>
+  </div>
+
+  <!-- ============ SCENE 6 — CTA ============ -->
+  <div id="s6">
+    <div class="abs center" id="s6-logo" style="top:300px"><div class="logo-card" style="width:460px;height:246px"><img src="assets/logo.png" alt="" style="width:350px"></div></div>
+    <div class="abs center pad h2" id="s6-t1" style="top:640px">Réduisez votre</div>
+    <div class="abs center pad h2" id="s6-t2" style="top:735px">facture énergétique</div>
+    <div class="abs center pad h2 accent" id="s6-t3" style="top:830px">sans aucun frais</div>
+    <div class="abs center" id="s6-cta" style="top:1040px"><span class="cta">Envoyez votre facture <span style="font-size:56px">→</span></span></div>
+    <div class="abs center url" id="s6-url" style="top:1270px">energy-market.fr</div>
+    <div class="abs center" id="s6-tag" style="top:1375px"><span class="pill gold">Consultation gratuite · Paris &amp; Marseille</span></div>
+  </div>
+
+  <!-- Transitions -->
+  <div class="wipe" id="wipeGold" style="background:#c6a55c"></div>
+  <div class="wipe" id="wipeBlue" style="background:#2547d6"></div>
+</div>
+
+<script>
+/* ---------- Helpers ---------- */
+const $ = id => document.getElementById(id);
+const clamp = (x, a = 0, b = 1) => Math.min(b, Math.max(a, x));
+const prog = (t, a, b) => clamp((t - a) / (b - a));
+const lerp = (a, b, k) => a + (b - a) * k;
+const ease = {
+  out: x => 1 - Math.pow(1 - x, 3),
+  outQuint: x => 1 - Math.pow(1 - x, 5),
+  in: x => x * x * x,
+  inOut: x => x < .5 ? 4 * x * x * x : 1 - Math.pow(-2 * x + 2, 3) / 2,
+  back: x => { const c1 = 1.70158, c3 = c1 + 1; return 1 + c3 * Math.pow(x - 1, 3) + c1 * Math.pow(x - 1, 2); },
+};
+
+/* Standard enter / exit for a text element. */
+function reveal(el, t, tin, tout, o = {}) {
+  const dur = o.dur ?? .55, dy = o.dy ?? 70, outDur = o.outDur ?? .3;
+  const k = (o.easeIn ?? ease.outQuint)(prog(t, tin, tin + dur));
+  const q = ease.in(prog(t, tout - outDur, tout));
+  const y = lerp(dy, 0, k) - q * 50 + (o.y ?? 0);
+  const x = (o.dx ? lerp(o.dx, 0, k) : 0) + (o.x ?? 0);
+  const s = (o.scale != null ? lerp(o.scale, 1, k) : 1) * (1 - q * .04);
+  const op = Math.min(k === 0 ? 0 : clamp(prog(t, tin, tin + dur * .6)), 1 - q);
+  const blur = (1 - k) * (o.blur ?? 12);
+  el.style.opacity = op;
+  el.style.transform = `translate(${x}px, ${y}px) scale(${s})`;
+  el.style.filter = blur > .1 ? `blur(${blur}px)` : 'none';
+}
+const sceneVisible = (id, t, a, b) => { $(id).style.display = (t >= a && t < b) ? 'block' : 'none'; };
+
+/* ---------- Background: grid + candlesticks (as on the site hero) ---------- */
+const bg = $('bg');
+let rnd = 7;
+const rand = () => (rnd = (rnd * 16807) % 2147483647) / 2147483647;
+const candles = [];
+{
+  let price = 1300;
+  for (let i = 0; i < 60; i++) {
+    const o = price, c = price - (rand() * 90 - 55) * 1.1, hi = Math.min(o, c) - rand() * 60, lo = Math.max(o, c) + rand() * 60;
+    candles.push({ x: i * 46, o, c, hi, lo }); price = c;
+  }
+  let s = '<g id="bg-grid" stroke="rgba(255,255,255,.05)" stroke-width="2">';
+  for (let x = 0; x <= 1080; x += 120) s += `<line x1="${x}" y1="0" x2="${x}" y2="1920"/>`;
+  for (let y = 0; y <= 1920; y += 120) s += `<line x1="0" y1="${y}" x2="1080" y2="${y}"/>`;
+  s += '</g><g id="bg-candles" opacity=".16">';
+  for (const k of candles) {
+    const up = k.c < k.o, col = up ? '#a9b8f2' : '#ef6b8b';
+    s += `<line x1="${k.x + 12}" y1="${k.hi}" x2="${k.x + 12}" y2="${k.lo}" stroke="${col}" stroke-width="3"/>`;
+    s += `<rect x="${k.x}" y="${Math.min(k.o, k.c)}" width="24" height="${Math.max(6, Math.abs(k.o - k.c))}" fill="${up ? 'none' : col}" stroke="${col}" stroke-width="3" rx="2"/>`;
+  }
+  s += '</g>';
+  bg.innerHTML = s;
+}
+
+/* ---------- Scene 1 chart ---------- */
+const chartPts = [];
+{
+  let g = '';
+  for (let y = 60; y <= 520; y += 115) g += `<line x1="0" y1="${y}" x2="900" y2="${y}"/>`;
+  $('s1-grid').innerHTML = g;
+  const vals = [0, .06, .03, .12, .1, .2, .17, .3, .27, .42, .5, .46, .63, .72, .69, .86, 1];
+  vals.forEach((v, i) => chartPts.push([30 + i * (840 / (vals.length - 1)), 470 - v * 400]));
+}
+function chartPath(k) {
+  const n = chartPts.length - 1, f = k * n, i = Math.floor(f), r = f - i;
+  const pts = chartPts.slice(0, i + 1);
+  if (i < n) pts.push([lerp(chartPts[i][0], chartPts[i + 1][0], r), lerp(chartPts[i][1], chartPts[i + 1][1], r)]);
+  return pts;
+}
+
+/* ---------- Scene 3 companies ---------- */
+const bldg = '<svg viewBox="0 0 64 64"><rect x="10" y="14" width="28" height="42" rx="3" fill="#2547d6"/><rect x="38" y="28" width="18" height="28" rx="3" fill="#142a5e"/>' +
+  '<g fill="#fff"><rect x="16" y="21" width="6" height="6"/><rect x="26" y="21" width="6" height="6"/><rect x="16" y="32" width="6" height="6"/><rect x="26" y="32" width="6" height="6"/><rect x="21" y="44" width="6" height="12"/><rect x="43" y="35" width="8" height="5"/><rect x="43" y="45" width="8" height="5"/></g></svg>';
+const COS = 8, cos = [];
+for (let i = 0; i < COS; i++) {
+  const d = document.createElement('div'); d.className = 'co'; d.innerHTML = bldg; $('s3-cos').appendChild(d);
+  const a = -Math.PI / 2 + i * (Math.PI * 2 / COS);
+  cos.push({ el: d, a, r: 360 + (i % 2) * 20 });
+}
+
+/* ---------- Timeline (seconds) ---------- */
+const DURATION = 22;          // 20 s de contenu + 2 s de marge finale
+const T = { s1: [0, 3.9], s2: [3.9, 7.6], s3: [7.6, 11.6], s4: [11.6, 15.9], s5: [15.9, 18.9], s6: [18.9, 99] };
+const WIPES = [3.9, 7.6, 11.6, 15.9, 18.9];
+
+function render(t) {
+  /* background drift */
+  $('bg-candles').setAttribute('transform', `translate(${-t * 38}, ${Math.sin(t * .4) * 30 + 420})`);
+  $('bg-grid').setAttribute('transform', `translate(${-(t * 20) % 120}, ${-(t * 12) % 120})`);
+  $('glow1').style.transform = `translate(${560 + Math.sin(t * .5) * 160}px, ${-120 + Math.cos(t * .35) * 200}px)`;
+  $('glow2').style.transform = `translate(${-140 + Math.cos(t * .4) * 120}px, ${1300 + Math.sin(t * .6) * 180}px)`;
+
+  /* transitions : diagonal gold + blue wipes */
+  let gx = 2000, bx = 2000;
+  for (const w of WIPES) {
+    const k = prog(t, w - .38, w + .38);
+    if (k > 0 && k < 1) {
+      const e = ease.inOut(k);
+      gx = lerp(1250, -1900, clamp(e * 1.06));
+      bx = lerp(1350, -1850, e);
+    }
+  }
+  $('wipeGold').style.transform = `translateX(${gx}px) skewX(-14deg)`;
+  $('wipeBlue').style.transform = `translateX(${bx + 70}px) skewX(-14deg)`;
+
+  /* ---- Scene 1 ---- */
+  sceneVisible('s1', t, ...T.s1);
+  if (t < T.s1[1]) {
+    const out = T.s1[1] - .05;
+    reveal($('s1-pill'), t, .1, out, { dy: 40 });
+    reveal($('s1-t1'), t, .15, out);
+    reveal($('s1-t2'), t, .3, out);
+    reveal($('s1-t3'), t, .5, out, { scale: 1.6, dy: 0, dur: .5, easeIn: ease.back });
+    const shake = t > 1.05 && t < 1.5 ? Math.sin(t * 90) * 10 * (1.5 - t) / .45 : 0;
+    if (shake) $('s1-t3').style.transform += ` translateX(${shake}px)`;
+    const ck = ease.inOut(prog(t, .9, 2.7));
+    const pts = chartPath(Math.max(ck, .0001));
+    $('s1-line').setAttribute('d', 'M' + pts.map(p => p.join(',')).join('L'));
+    const last = pts[pts.length - 1];
+    $('s1-area').setAttribute('d', 'M' + pts.map(p => p.join(',')).join('L') + `L${last[0]},520L${pts[0][0]},520Z`);
+    $('s1-dot').setAttribute('cx', last[0]); $('s1-dot').setAttribute('cy', last[1]);
+    reveal($('s1-chart'), t, .8, out, { dy: 40, blur: 0 });
+    reveal($('s1-badge'), t, 1.3, out, { scale: .7, dy: 30 });
+    $('s1-count').textContent = '+' + Math.round(15 * ease.out(prog(t, 1.3, 2.7)));
+  }
+
+  /* ---- Scene 2 ---- */
+  sceneVisible('s2', t, ...T.s2);
+  if (t >= T.s2[0] && t < T.s2[1]) {
+    const a = T.s2[0] + .15, out = T.s2[1] - .05;
+    reveal($('s2-logo'), t, a, out, { scale: .5, dy: 0, dur: .7, easeIn: ease.back });
+    reveal($('s2-brand'), t, a + .35, out, { dy: 40 });
+    reveal($('s2-t1'), t, a + .75, out);
+    reveal($('s2-t2'), t, a + .95, out);
+    reveal($('s2-sub'), t, a + 1.35, out, { dy: 40 });
+  }
+
+  /* ---- Scene 3 ---- */
+  sceneVisible('s3', t, ...T.s3);
+  if (t >= T.s3[0] && t < T.s3[1]) {
+    const a = T.s3[0] + .15, out = T.s3[1] - .05;
+    reveal($('s3-pill'), t, a, out, { dy: 40 });
+    reveal($('s3-t1'), t, a + .15, out);
+    reveal($('s3-t2'), t, a + .3, out);
+    const fadeOut = 1 - ease.in(prog(t, out - .3, out));
+    cos.forEach((c, i) => {
+      const kin = ease.back(prog(t, a + .35 + i * .06, a + .8 + i * .06));
+      const km = ease.inOut(prog(t, a + 1.35, a + 2.15));
+      const r = c.r * (1 - km), ang = c.a + km * 1.4;
+      c.el.style.left = (540 + Math.cos(ang) * r) + 'px';
+      c.el.style.top = (1060 + Math.sin(ang) * r) + 'px';
+      c.el.style.opacity = Math.min(prog(t, a + .35 + i * .06, a + .6 + i * .06), 1 - prog(t, a + 1.95, a + 2.15));
+      c.el.style.transform = `scale(${kin * (1 - km * .6)})`;
+    });
+    const kh = ease.back(prog(t, a + 1.95, a + 2.5));
+    $('s3-hub').style.opacity = clamp(prog(t, a + 1.95, a + 2.1)) * fadeOut;
+    $('s3-hub').style.transform = `scale(${kh})`;
+    [['s3-ring1', 0], ['s3-ring2', .35]].forEach(([id, d]) => {
+      const k = prog(t, a + 2.05 + d, a + 3.1 + d), size = lerp(360, 760, ease.out(k));
+      const el = $(id);
+      Object.assign(el.style, { width: size + 'px', height: size + 'px', marginLeft: -size / 2 + 'px', marginTop: -size / 2 + 'px', opacity: (k > 0 && k < 1 ? 1 - k : 0) * fadeOut });
+    });
+    reveal($('s3-sub'), t, a + 2.3, out, { dy: 40 });
+  }
+
+  /* ---- Scene 4 ---- */
+  sceneVisible('s4', t, ...T.s4);
+  if (t >= T.s4[0] && t < T.s4[1]) {
+    const a = T.s4[0] + .15, out = T.s4[1] - .05;
+    reveal($('s4-t1'), t, a, out);
+    reveal($('s4-t2'), t, a + .15, out);
+    for (let i = 1; i <= 4; i++) reveal($('s4-c' + i), t, a + .45 + (i - 1) * .55, out, { dx: 140, dy: 0, blur: 8 });
+    const rk = ease.inOut(prog(t, a + .6, a + 2.4));
+    $('s4-rail').style.height = (rk * 660) + 'px';
+    $('s4-rail').style.opacity = 1 - prog(t, out - .3, out);
+  }
+
+  /* ---- Scene 5 ---- */
+  sceneVisible('s5', t, ...T.s5);
+  if (t >= T.s5[0] && t < T.s5[1]) {
+    const a = T.s5[0] + .15, out = T.s5[1] - .05;
+    reveal($('s5-a'), t, a, out, { scale: .8, dy: 60 });
+    reveal($('s5-b'), t, a + .55, out, { scale: .8, dy: 60 });
+    $('s5-count').textContent = Math.round(100 * ease.out(prog(t, a + .6, a + 1.7)));
+  }
+
+  /* ---- Scene 6 (CTA, tenu jusqu'à la fin) ---- */
+  sceneVisible('s6', t, ...T.s6);
+  if (t >= T.s6[0]) {
+    const a = T.s6[0] + .15, out = 999;
+    reveal($('s6-logo'), t, a, out, { scale: .5, dy: 0, dur: .7, easeIn: ease.back });
+    reveal($('s6-t1'), t, a + .35, out);
+    reveal($('s6-t2'), t, a + .5, out);
+    reveal($('s6-t3'), t, a + .65, out);
+    reveal($('s6-cta'), t, a + 1.0, out, { scale: .6, dy: 0, easeIn: ease.back });
+    const pulse = t > a + 1.6 ? 1 + Math.sin((t - a - 1.6) * 5) * .035 : 1;
+    if (t > a + 1.6) $('s6-cta').style.transform = `scale(${pulse})`;
+    reveal($('s6-url'), t, a + 1.3, out, { dy: 40 });
+    reveal($('s6-tag'), t, a + 1.5, out, { dy: 40 });
+  }
+}
+
+window.DURATION = DURATION;
+window.render = render;
+const params = new URLSearchParams(location.search);
+if (params.has('t')) render(parseFloat(params.get('t')));
+else if (!params.has('capture')) { // aperçu en boucle dans le navigateur
+  const t0 = performance.now();
+  (function loop() { render(((performance.now() - t0) / 1000) % DURATION); requestAnimationFrame(loop); })();
+}
+</script>
+</body>
+</html>
