@@ -1,7 +1,7 @@
 # Energy Market — vidéo motion design 9:16
 
-`energy-market-9x16.mp4` : 1080×1920, 30 fps, H.264 + AAC 192 kb/s (−14 LUFS), 22 s
-(la voix off se termine à ~20,2 s, puis 2 s de marge sur l'écran d'appel à l'action).
+`energy-market-9x16.mp4` : 1080×1920, 30 fps, H.264 + AAC 192 kb/s (−14 LUFS), 30 s
+(la voix off se termine à ~27,6 s, puis 2 s de marge sur l'écran d'appel à l'action).
 
 ## Bande-son
 - **Voix off** : voix neuronale `fr-FR-VivienneMultilingualNeural` (Edge TTS). Texte et calage dans `audio/voiceover.json`.
@@ -15,9 +15,9 @@
 
 | Temps | Scène — voix off |
 |---|---|
-| 0 – 3,3 s | Accroche + courbe, +15 %/an — « Votre facture d'énergie n'arrête pas de grimper ? » |
-| 3,3 – 6,4 s | Energy Market Group — « Chez Energy Market, on négocie pour vous. » |
-| 6,4 – 10,2 s | Groupement d'achat — « On regroupe les entreprises de votre secteur… pour décrocher de meilleurs prix. » |
-| 10,2 – 14,6 s | 4 étapes — « Envoyez votre facture : on analyse, on négocie, et vous décidez. » |
-| 14,6 – 17,6 s | 0 € / 100 % — « Zéro euro d'honoraires, et une obligation de résultat. » |
-| 17,6 – 22 s | CTA — « Rendez-vous sur energy-market point fr ! » |
+| 0 – 4,5 s | Accroche + courbe, +15 %/an — « Votre facture d'énergie n'arrête pas de grimper ? » |
+| 4,5 – 9 s | Energy Market Group — « Chez Energy Market, on négocie pour vous. » |
+| 9 – 14,5 s | Groupement d'achat — « On regroupe les entreprises de votre secteur… pour décrocher de meilleurs prix. » |
+| 14,5 – 20,5 s | 4 étapes — « Envoyez votre facture : on analyse, on négocie, et vous décidez. » |
+| 20,5 – 25 s | 0 € / 100 % — « Zéro euro d'honoraires, et une obligation de résultat. » |
+| 25 – 30 s | CTA — « Rendez-vous sur energy-market point fr ! » |

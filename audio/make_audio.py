@@ -11,11 +11,11 @@ from scipy import signal
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 SR = 48000
-DUR = 22.0
+DUR = 30.0
 N = int(SR * DUR)
 BPM = 120
 BEAT = 60 / BPM
-WIPES = [3.3, 6.4, 10.2, 14.6, 17.6]           # doit suivre WIPES dans video.html
+WIPES = [4.5, 9.0, 14.5, 20.5, 25.0]           # doit suivre WIPES dans video.html
 CFG = json.load(open(os.path.join(HERE, 'voiceover.json'), encoding='utf-8'))
 
 try:
@@ -73,9 +73,9 @@ midi = lambda m: 440 * 2 ** ((m - 69) / 12)
 
 # I–V–vi–IV en do majeur, une mesure (2 s) par accord, résolution finale sur do
 CHORDS = {'C': [48, 52, 55], 'G': [43, 47, 50], 'Am': [45, 48, 52], 'F': [41, 45, 48]}
-PROG = ['C', 'G', 'Am', 'F', 'C', 'G', 'Am', 'F', 'C', 'G', 'C']
+PROG = ['C', 'G', 'Am', 'F'] * 3 + ['C', 'G', 'C']
 BAR = 4 * BEAT
-DRUMS_END = 20.0
+DRUMS_END = 28.0
 
 
 def add(buf, x, start, gain=1.0):
@@ -122,7 +122,7 @@ def music():
         add(drums, K, tb, 1.0)
         if i % 2 == 1: add(drums, C, tb, .55)
         add(drums, HO, tb + BEAT / 2, .22)
-        if tb > 6.4:  # double-croches à partir de la scène 3 pour faire monter l'énergie
+        if tb > 9.0:  # double-croches à partir de la scène 3 pour faire monter l'énergie
             add(drums, H, tb + BEAT / 4, .12); add(drums, H, tb + 3 * BEAT / 4, .12)
     add(drums, K, DRUMS_END, 1.0)                      # dernier coup sur le CTA
     add(drums, C, DRUMS_END, .5)
@@ -151,7 +151,7 @@ def music():
             tt = np.arange(int(.22 * SR)) / SR
             x = (signal.sawtooth(2 * np.pi * f * tt) * .5 + np.sin(2 * np.pi * f * tt)) * np.exp(-tt * 16)
             x = lowpass(x, 2200 + 2600 * (bi / len(PROG)))
-            if t0 > 3.3 or k % 2 == 0:  # l'arpège se densifie après l'accroche
+            if t0 > 4.5 or k % 2 == 0:  # l'arpège se densifie après l'accroche
                 add(arp, x, t0 + k * BEAT / 4, .16)
 
     # transitions : whoosh montant + impact grave sur chaque balayage
