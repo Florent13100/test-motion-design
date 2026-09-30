@@ -270,8 +270,10 @@ for (let i = 0; i < COS; i++) {
 
 /* ---------- Timeline (seconds) ---------- */
 const DURATION = 22;          // 20 s de contenu + 2 s de marge finale
-const T = { s1: [0, 3.9], s2: [3.9, 7.6], s3: [7.6, 11.6], s4: [11.6, 15.9], s5: [15.9, 18.9], s6: [18.9, 99] };
-const WIPES = [3.9, 7.6, 11.6, 15.9, 18.9];
+// Calé sur la voix off (voir audio/voiceover.json)
+const T = { s1: [0, 3.3], s2: [3.3, 6.4], s3: [6.4, 10.2], s4: [10.2, 14.6], s5: [14.6, 17.6], s6: [17.6, 99] };
+const WIPES = [3.3, 6.4, 10.2, 14.6, 17.6];
+const STEP_TIMES = [10.5, 11.9, 12.6, 13.45]; // « Envoyez votre facture / on analyse / on négocie / vous décidez »
 
 function render(t) {
   /* background drift */
@@ -303,15 +305,15 @@ function render(t) {
     reveal($('s1-t3'), t, .5, out, { scale: 1.6, dy: 0, dur: .5, easeIn: ease.back });
     const shake = t > 1.05 && t < 1.5 ? Math.sin(t * 90) * 10 * (1.5 - t) / .45 : 0;
     if (shake) $('s1-t3').style.transform += ` translateX(${shake}px)`;
-    const ck = ease.inOut(prog(t, .9, 2.7));
+    const ck = ease.inOut(prog(t, .8, 2.4));
     const pts = chartPath(Math.max(ck, .0001));
     $('s1-line').setAttribute('d', 'M' + pts.map(p => p.join(',')).join('L'));
     const last = pts[pts.length - 1];
     $('s1-area').setAttribute('d', 'M' + pts.map(p => p.join(',')).join('L') + `L${last[0]},520L${pts[0][0]},520Z`);
     $('s1-dot').setAttribute('cx', last[0]); $('s1-dot').setAttribute('cy', last[1]);
     reveal($('s1-chart'), t, .8, out, { dy: 40, blur: 0 });
-    reveal($('s1-badge'), t, 1.3, out, { scale: .7, dy: 30 });
-    $('s1-count').textContent = '+' + Math.round(15 * ease.out(prog(t, 1.3, 2.7)));
+    reveal($('s1-badge'), t, 1.2, out, { scale: .7, dy: 30 });
+    $('s1-count').textContent = '+' + Math.round(15 * ease.out(prog(t, 1.2, 2.4)));
   }
 
   /* ---- Scene 2 ---- */
@@ -359,8 +361,8 @@ function render(t) {
     const a = T.s4[0] + .15, out = T.s4[1] - .05;
     reveal($('s4-t1'), t, a, out);
     reveal($('s4-t2'), t, a + .15, out);
-    for (let i = 1; i <= 4; i++) reveal($('s4-c' + i), t, a + .45 + (i - 1) * .55, out, { dx: 140, dy: 0, blur: 8 });
-    const rk = ease.inOut(prog(t, a + .6, a + 2.4));
+    for (let i = 1; i <= 4; i++) reveal($('s4-c' + i), t, STEP_TIMES[i - 1], out, { dx: 140, dy: 0, blur: 8 });
+    const rk = ease.inOut(prog(t, STEP_TIMES[0] + .2, STEP_TIMES[3] + .3));
     $('s4-rail').style.height = (rk * 660) + 'px';
     $('s4-rail').style.opacity = 1 - prog(t, out - .3, out);
   }
@@ -370,8 +372,8 @@ function render(t) {
   if (t >= T.s5[0] && t < T.s5[1]) {
     const a = T.s5[0] + .15, out = T.s5[1] - .05;
     reveal($('s5-a'), t, a, out, { scale: .8, dy: 60 });
-    reveal($('s5-b'), t, a + .55, out, { scale: .8, dy: 60 });
-    $('s5-count').textContent = Math.round(100 * ease.out(prog(t, a + .6, a + 1.7)));
+    reveal($('s5-b'), t, a + 1.4, out, { scale: .8, dy: 60 });
+    $('s5-count').textContent = Math.round(100 * ease.out(prog(t, a + 1.45, a + 2.4)));
   }
 
   /* ---- Scene 6 (CTA, tenu jusqu'à la fin) ---- */

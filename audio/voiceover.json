@@ -1,0 +1,12 @@
+{
+  "voice": "fr-FR-VivienneMultilingualNeural",
+  "rate": "+10%",
+  "lines": [
+    { "at": 0.35,  "text": "Votre facture d'énergie n'arrête pas de grimper ?" },
+    { "at": 3.55,  "text": "Chez Energy Market, on négocie pour vous." },
+    { "at": 6.6,   "text": "On regroupe les entreprises de votre secteur… pour décrocher de meilleurs prix." },
+    { "at": 10.4,  "text": "Envoyez votre facture : on analyse, on négocie, et vous décidez." },
+    { "at": 14.8,  "text": "Zéro euro d'honoraires, et une obligation de résultat." },
+    { "at": 18.3,  "text": "Rendez-vous sur energy-market point fr !" }
+  ]
+}

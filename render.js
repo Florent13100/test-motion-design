@@ -14,6 +14,7 @@ const FPS = +arg('fps', 30);
 const OUT = path.resolve(arg('out', 'energy-market-9x16.mp4'));
 const FRAMES = path.resolve(arg('frames', fs.mkdtempSync(path.join(require('os').tmpdir(), 'frames-'))));
 const STILLS = arg('stills');
+const SOUND = path.resolve(__dirname, 'audio', 'soundtrack.wav');
 
 function ffmpegPath() {
   if (process.env.FFMPEG) return process.env.FFMPEG;
@@ -42,10 +43,11 @@ function ffmpegPath() {
   console.log('\nEncodage…');
   execFileSync(ffmpegPath(), [
     '-y', '-framerate', String(FPS), '-i', path.join(FRAMES, 'f_%05d.png'),
-    '-f', 'lavfi', '-i', 'anullsrc=channel_layout=stereo:sample_rate=48000',
-    '-map', '0:v', '-map', '1:a', '-shortest',
+    // Bande-son (voix off + musique) générée par audio/make_audio.py, sinon piste silencieuse
+    ...(fs.existsSync(SOUND) ? ['-i', SOUND] : ['-f', 'lavfi', '-i', 'anullsrc=channel_layout=stereo:sample_rate=48000']),
+    '-map', '0:v', '-map', '1:a', '-t', String(duration),
     '-c:v', 'libx264', '-profile:v', 'high', '-level', '4.1', '-preset', 'slow', '-crf', '18',
-    '-pix_fmt', 'yuv420p', '-c:a', 'aac', '-b:a', '128k', '-movflags', '+faststart', OUT,
+    '-pix_fmt', 'yuv420p', '-c:a', 'aac', '-b:a', '192k', '-movflags', '+faststart', OUT,
   ], { stdio: 'inherit' });
   console.log('OK ->', OUT);
 })();
