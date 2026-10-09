@@ -1,5 +1,6 @@
 // Rend video.html image par image puis encode un MP4 1080x1920 (9:16) H.264.
 // Usage : node render.js [--fps 30] [--out energy-market-9x16.mp4] [--frames dir]
+//         node render.js --page apporteur/video.html --audio apporteur/audio/soundtrack.wav --out energy-market-apporteur-9x16.mp4
 //         node render.js --stills 1,5,9   (captures PNG de contrôle uniquement)
 const path = require('path');
 const fs = require('fs');
@@ -14,7 +15,8 @@ const FPS = +arg('fps', 30);
 const OUT = path.resolve(arg('out', 'energy-market-9x16.mp4'));
 const FRAMES = path.resolve(arg('frames', fs.mkdtempSync(path.join(require('os').tmpdir(), 'frames-'))));
 const STILLS = arg('stills');
-const SOUND = path.resolve(__dirname, 'audio', 'soundtrack.wav');
+const PAGE = path.resolve(arg('page', path.join(__dirname, 'video.html')));
+const SOUND = path.resolve(arg('audio', path.join(__dirname, 'audio', 'soundtrack.wav')));
 
 function ffmpegPath() {
   if (process.env.FFMPEG) return process.env.FFMPEG;
@@ -25,7 +27,7 @@ function ffmpegPath() {
 (async () => {
   const browser = await chromium.launch();
   const page = await browser.newPage({ viewport: { width: 1080, height: 1920 }, deviceScaleFactor: 1 });
-  await page.goto('file://' + path.resolve(__dirname, 'video.html') + '?capture');
+  await page.goto('file://' + PAGE + '?capture');
   await page.evaluate(() => document.fonts.ready);
   const duration = await page.evaluate(() => window.DURATION);
 

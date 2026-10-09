@@ -1,0 +1,663 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<title>Energy Market — Apporteurs d'affaires 9:16</title>
+<style>
+  @font-face {
+    font-family: 'Plus Jakarta Sans';
+    src: url('../assets/PlusJakartaSans.woff2') format('woff2');
+    font-weight: 200 800;
+  }
+  :root {
+    --cream: #f7f2e9;
+    --cream-2: #efe6d6;
+    --navy: #1b2c66;
+    --navy-deep: #13204d;
+    --gold: #c9a24f;
+    --gold-2: #e3c67f;
+    --gold-light: #f4e7c4;
+    --ink: #142152;
+    --green: #2f9e5e;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { width: 1080px; height: 1920px; overflow: hidden; background: var(--cream); }
+  body { font-family: 'Plus Jakarta Sans', sans-serif; color: var(--ink); -webkit-font-smoothing: antialiased; }
+
+  #stage { position: relative; width: 1080px; height: 1920px; overflow: hidden;
+    background: radial-gradient(90% 60% at 50% 18%, #fffdf8 0%, var(--cream) 55%, var(--cream-2) 100%); }
+  .anim { will-change: transform, opacity; }
+
+  /* ---------- En-tête (logo) ---------- */
+  #head { position: absolute; left: 0; top: 46px; width: 1080px; text-align: center; }
+  #logo { width: 500px; display: block; margin: 0 auto; }
+  #tagline { margin-top: 6px; font-size: 34px; font-weight: 600; letter-spacing: .32em; color: var(--navy); padding-left: .32em; }
+  #rule { width: 600px; height: 3px; margin: 26px auto 0; background: linear-gradient(90deg, transparent, var(--gold), transparent); transform-origin: center; }
+
+  /* ---------- Cadre « photo » ---------- */
+  #frame { position: absolute; left: 14px; top: 430px; width: 1052px; height: 1060px; border-radius: 26px;
+    background: var(--navy); padding: 16px; box-shadow: 0 30px 70px rgba(20,33,82,.28); }
+  #frame::after { content: ''; position: absolute; inset: 9px; border: 3px solid var(--gold); border-radius: 20px; pointer-events: none; }
+  .corner { position: absolute; width: 70px; height: 70px; border: 7px solid var(--gold-2); z-index: 3; }
+  .corner.tl { left: 2px; top: 2px; border-right: 0; border-bottom: 0; border-top-left-radius: 24px; }
+  .corner.tr { right: 2px; top: 2px; border-left: 0; border-bottom: 0; border-top-right-radius: 24px; }
+  .corner.bl { left: 2px; bottom: 2px; border-right: 0; border-top: 0; border-bottom-left-radius: 24px; }
+  .corner.br { right: 2px; bottom: 2px; border-left: 0; border-top: 0; border-bottom-right-radius: 24px; }
+  #scene-wrap { position: relative; width: 1020px; height: 1028px; overflow: hidden; border-radius: 14px; background: #e6d9c4; }
+  #scene { position: absolute; left: 0; top: 0; width: 1020px; height: 1028px; transform-origin: 50% 40%; }
+
+  /* Pastilles et cartes incrustées dans la scène */
+  .ov { position: absolute; opacity: 0; }
+  .tag { display: inline-flex; align-items: center; gap: 14px; padding: 16px 30px; border-radius: 999px;
+    background: var(--navy); color: #fff; font-size: 34px; font-weight: 800; letter-spacing: .04em;
+    border: 3px solid var(--gold); box-shadow: 0 16px 40px rgba(20,33,82,.35); white-space: nowrap; }
+  .chip { display: flex; align-items: center; gap: 18px; width: 340px; padding: 16px 22px; border-radius: 24px;
+    background: rgba(255,255,255,.96); box-shadow: 0 18px 40px rgba(20,33,82,.28); font-size: 34px; font-weight: 800; color: var(--navy); }
+  .chip .ic { flex: 0 0 72px; height: 72px; border-radius: 50%; background: var(--navy); display: flex; align-items: center; justify-content: center; }
+  .chip .ic svg { width: 42px; height: 42px; }
+  .card { border-radius: 28px; background: rgba(255,255,255,.97); box-shadow: 0 22px 50px rgba(20,33,82,.3); color: var(--navy); }
+  .bubble { position: relative; padding: 24px 30px; border-radius: 28px; background: #fff; box-shadow: 0 18px 44px rgba(20,33,82,.3);
+    font-size: 36px; font-weight: 800; color: var(--navy); line-height: 1.2; }
+  .bubble::after { content: ''; position: absolute; right: 60px; bottom: -22px; border: 14px solid transparent; border-top: 16px solid #fff; border-bottom: 0; transform: scaleX(1.4); }
+  .stamp { padding: 14px 26px; border: 7px solid var(--green); border-radius: 18px; color: var(--green); font-size: 44px; font-weight: 800;
+    letter-spacing: .04em; background: rgba(255,255,255,.88); white-space: nowrap; }
+
+  /* ---------- Citation ---------- */
+  #quote { position: absolute; left: 62px; top: 1338px; width: 956px; height: 360px; border-radius: 30px;
+    background: #fffdf9; border: 3px solid var(--gold); box-shadow: 0 22px 60px rgba(20,33,82,.22); overflow: hidden; }
+  #q-text { position: absolute; left: 66px; right: 56px; top: 0; bottom: 0; display: flex; align-items: center;
+    font-size: 54px; font-weight: 600; line-height: 1.24; letter-spacing: -.012em; color: var(--ink); }
+  #q-text p { width: 100%; text-indent: -26px; }
+  #q-text .w { display: inline-block; white-space: pre; text-indent: 0; }
+  #q-text .k { color: #a9822f; font-weight: 800; }
+  #q-mark { position: absolute; left: 22px; top: -6px; font-size: 150px; font-weight: 800; color: var(--gold); opacity: .28; line-height: 1; }
+  #q-bar { position: absolute; left: 0; bottom: 0; height: 8px; background: linear-gradient(90deg, var(--gold), var(--gold-2)); }
+
+  /* ---------- Barre du bas ---------- */
+  #bar { position: absolute; left: 62px; top: 1730px; width: 956px; height: 150px; border-radius: 30px; background: var(--navy);
+    display: flex; align-items: center; padding: 0 14px 0 22px; gap: 18px; box-shadow: 0 20px 50px rgba(20,33,82,.3);
+    border: 3px solid rgba(201,162,79,.55); }
+  #avatar { flex: 0 0 88px; height: 88px; border-radius: 50%; border: 4px solid var(--gold); display: flex; align-items: center; justify-content: center; overflow: hidden; background: #24387a; }
+  #who { color: #fff; font-size: 29px; font-weight: 700; line-height: 1.3; white-space: nowrap; }
+  #who span { color: var(--gold-2); }
+  #who small { display: block; font-size: 24px; font-weight: 600; color: rgba(255,255,255,.75); }
+  #pill { margin-left: auto; flex: 0 0 430px; position: relative; height: 112px; width: 430px; border-radius: 24px; overflow: hidden;
+    background: linear-gradient(135deg, #f1d58c 0%, #c9a24f 55%, #b48a39 100%); box-shadow: inset 0 2px 0 rgba(255,255,255,.5); }
+  .pt { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; gap: 16px; padding: 0 18px;
+    font-size: 33px; font-weight: 800; color: var(--navy-deep); white-space: nowrap; letter-spacing: -.01em; }
+  .pt svg { flex: 0 0 auto; width: 46px; height: 46px; }
+  .pt span { flex-shrink: 0; }
+</style>
+</head>
+<body>
+<div id="stage">
+  <div id="head" class="anim">
+    <img id="logo" src="../assets/logo.png" alt="Energy Market">
+    <div id="tagline">AGENCE VIRTUELLE</div>
+    <div id="rule"></div>
+  </div>
+
+  <div id="frame" class="anim">
+    <div class="corner tl"></div><div class="corner tr"></div><div class="corner bl"></div><div class="corner br"></div>
+    <div id="scene-wrap">
+      <svg id="scene" viewBox="0 0 1020 1028" width="1020" height="1028">
+        <defs>
+          <linearGradient id="wall" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0" stop-color="#efe4d2"/><stop offset=".6" stop-color="#e3d3bb"/><stop offset="1" stop-color="#cdb999"/>
+          </linearGradient>
+          <linearGradient id="win" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0" stop-color="#fffdf6"/><stop offset="1" stop-color="#f5ead2"/>
+          </linearGradient>
+          <radialGradient id="light" cx=".85" cy=".25" r=".7">
+            <stop offset="0" stop-color="#fff8e6" stop-opacity=".9"/><stop offset="1" stop-color="#fff8e6" stop-opacity="0"/>
+          </radialGradient>
+          <linearGradient id="blazer" x1="0" y1="0" x2="1" y2="0">
+            <stop offset="0" stop-color="#16244f"/><stop offset=".5" stop-color="#22336d"/><stop offset="1" stop-color="#16244f"/>
+          </linearGradient>
+          <radialGradient id="skin" cx=".45" cy=".4" r=".7">
+            <stop offset="0" stop-color="#f2c4a0"/><stop offset=".75" stop-color="#e5ac85"/><stop offset="1" stop-color="#d4946c"/>
+          </radialGradient>
+          <linearGradient id="hairG" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0" stop-color="#4a3326"/><stop offset="1" stop-color="#2e1f17"/>
+          </linearGradient>
+          <linearGradient id="bill" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0" stop-color="#f4dfb6"/><stop offset="1" stop-color="#e2b77a"/>
+          </linearGradient>
+          <linearGradient id="bill2" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0" stop-color="#dfeccf"/><stop offset="1" stop-color="#a9c98e"/>
+          </linearGradient>
+          <radialGradient id="coin" cx=".35" cy=".3" r=".8">
+            <stop offset="0" stop-color="#fff1c2"/><stop offset=".5" stop-color="#e3c67f"/><stop offset="1" stop-color="#b48a39"/>
+          </radialGradient>
+          <filter id="soft" x="-5%" y="-5%" width="110%" height="110%"><feGaussianBlur stdDeviation="3.5"/></filter>
+          <filter id="shadow" x="-30%" y="-30%" width="160%" height="160%"><feDropShadow dx="0" dy="10" stdDeviation="12" flood-color="#1b2c66" flood-opacity=".28"/></filter>
+          <clipPath id="eyeL"><ellipse cx="462" cy="384" rx="25" ry="15"/></clipPath>
+          <clipPath id="eyeR"><ellipse cx="558" cy="384" rx="25" ry="15"/></clipPath>
+          <clipPath id="mouthClip"><path id="mouthClipPath"/></clipPath>
+        </defs>
+
+        <!-- Décor (flou de profondeur de champ) -->
+        <g id="bgroom" filter="url(#soft)">
+          <rect width="1020" height="1028" fill="url(#wall)"/>
+          <!-- fenêtre + rideaux -->
+          <rect x="770" y="40" width="270" height="760" fill="url(#win)"/>
+          <rect x="770" y="40" width="270" height="760" fill="none" stroke="#d7c6a8" stroke-width="14"/>
+          <line x1="905" y1="40" x2="905" y2="800" stroke="#d7c6a8" stroke-width="10"/>
+          <path id="curtain" d="M740 20 C760 220 730 420 760 620 C770 700 750 800 770 860 L860 860 C840 760 870 620 850 460 C835 320 870 180 850 20 Z" fill="#fbf7ef" opacity=".92"/>
+          <path d="M770 20 C780 300 770 600 800 860" stroke="#e9dfcd" stroke-width="8" fill="none"/>
+          <rect x="0" y="0" width="1020" height="1028" fill="url(#light)"/>
+          <!-- étagère, classeurs, plante -->
+          <rect x="30" y="520" width="300" height="16" rx="4" fill="#9a7a55"/>
+          <rect x="52" y="400" width="34" height="120" rx="4" fill="#1b2c66"/>
+          <rect x="90" y="410" width="34" height="110" rx="4" fill="#c9a24f"/>
+          <rect x="128" y="404" width="34" height="116" rx="4" fill="#2e4a8f"/>
+          <rect x="166" y="420" width="30" height="100" rx="4" fill="#e7dcc6" stroke="#cbb99a" stroke-width="3"/>
+          <path d="M235 520 L248 455 L300 455 L313 520 Z" fill="#c8754e"/>
+          <path d="M274 455 C250 400 220 390 210 360 C250 370 270 400 274 455 M274 455 C280 390 300 360 330 345 C320 390 300 420 274 455 M274 455 C270 410 268 370 280 330 C292 380 285 420 274 455" fill="#5f8a55"/>
+          <!-- affiche encadrée -->
+          <rect x="60" y="120" width="250" height="170" rx="10" fill="#fff" stroke="#c9a24f" stroke-width="6"/>
+          <image href="../assets/logo.png" x="78" y="150" width="214" height="115"/>
+          <!-- bureau -->
+          <rect x="0" y="905" width="1020" height="140" fill="#b89268"/>
+          <rect x="0" y="905" width="1020" height="10" fill="#d1ae84"/>
+        </g>
+
+        <!-- Personnage -->
+        <g id="char">
+          <g id="body">
+            <!-- bras gauche (côté écran gauche) le long du corps -->
+            <path d="M262 690 C215 760 200 900 196 1040" stroke="#18275a" stroke-width="120" stroke-linecap="round" fill="none"/>
+            <!-- cou -->
+            <path d="M462 470 L462 600 L558 600 L558 470 Z" fill="#dda07a"/>
+            <path d="M462 520 C490 560 530 560 558 520 L558 470 L462 470Z" fill="#c98b66" opacity=".55"/>
+            <!-- chemise -->
+            <path d="M425 590 L510 640 L595 590 L640 640 L510 905 L380 640 Z" fill="#f7f8fb"/>
+            <path d="M462 586 L510 660 L558 586 L590 600 L540 690 L510 650 L480 690 L430 600 Z" fill="#e6e9f2"/>
+            <!-- veste -->
+            <path d="M150 1040 C150 820 200 690 330 640 L425 600 L510 905 L595 600 L690 640 C820 690 870 820 870 1040 Z" fill="url(#blazer)"/>
+            <path d="M425 600 L392 650 L430 700 L400 740 L510 905 Z" fill="#2a3d7c"/>
+            <path d="M595 600 L628 650 L590 700 L620 740 L510 905 Z" fill="#2a3d7c"/>
+            <path d="M425 600 L510 905 M595 600 L510 905" stroke="#101b40" stroke-width="3" fill="none" opacity=".6"/>
+            <!-- pin' « + » doré -->
+            <g transform="translate(636 760) rotate(-12)">
+              <rect x="-4" y="-16" width="8" height="32" rx="3" fill="#e3c67f"/><rect x="-16" y="-4" width="32" height="8" rx="3" fill="#e3c67f"/>
+            </g>
+            <rect x="640" y="830" width="80" height="10" rx="4" fill="#101b40" opacity=".5"/>
+          </g>
+
+          <g id="headG">
+            <!-- oreilles -->
+            <ellipse cx="390" cy="398" rx="22" ry="38" fill="#e2a780"/>
+            <ellipse cx="630" cy="398" rx="22" ry="38" fill="#e2a780"/>
+            <path d="M385 385 C378 398 382 412 392 418" stroke="#c4835e" stroke-width="5" fill="none"/>
+            <path d="M635 385 C642 398 638 412 628 418" stroke="#c4835e" stroke-width="5" fill="none"/>
+            <!-- visage -->
+            <path d="M392 360 C392 262 446 228 510 228 C574 228 628 262 628 360 C628 452 596 512 510 538 C424 512 392 452 392 360 Z" fill="url(#skin)"/>
+            <!-- barbe de 3 jours -->
+            <path d="M400 420 C410 490 450 528 510 540 C570 528 610 490 620 420 C612 480 580 515 510 522 C440 515 408 480 400 420 Z" fill="#4a3326" opacity=".14"/>
+            <!-- joues -->
+            <ellipse cx="438" cy="440" rx="30" ry="18" fill="#e58f7b" opacity=".18"/>
+            <ellipse cx="582" cy="440" rx="30" ry="18" fill="#e58f7b" opacity=".18"/>
+            <!-- yeux -->
+            <g id="eyes">
+              <g clip-path="url(#eyeL)">
+                <ellipse cx="462" cy="384" rx="25" ry="15" fill="#fbfaf7"/>
+                <g class="iris"><circle cx="464" cy="385" r="11.5" fill="#6a4329"/><circle cx="464" cy="385" r="5.5" fill="#1d120c"/><circle cx="468" cy="381" r="3" fill="#fff"/></g>
+                <rect class="lid" x="430" y="360" width="64" height="0" fill="#e2a780"/>
+              </g>
+              <g clip-path="url(#eyeR)">
+                <ellipse cx="558" cy="384" rx="25" ry="15" fill="#fbfaf7"/>
+                <g class="iris"><circle cx="560" cy="385" r="11.5" fill="#6a4329"/><circle cx="560" cy="385" r="5.5" fill="#1d120c"/><circle cx="564" cy="381" r="3" fill="#fff"/></g>
+                <rect class="lid" x="526" y="360" width="64" height="0" fill="#e2a780"/>
+              </g>
+              <path class="lash" d="M436 384 Q462 362 488 384" stroke="#2e1f17" stroke-width="4.5" fill="none" stroke-linecap="round"/>
+              <path class="lash" d="M532 384 Q558 362 584 384" stroke="#2e1f17" stroke-width="4.5" fill="none" stroke-linecap="round"/>
+              <path d="M440 398 Q462 406 486 398" stroke="#c98b66" stroke-width="2.5" fill="none" opacity=".6"/>
+              <path d="M534 398 Q558 406 580 398" stroke="#c98b66" stroke-width="2.5" fill="none" opacity=".6"/>
+            </g>
+            <!-- sourcils -->
+            <g id="brows">
+              <path id="browL" d="M432 352 C445 338 470 334 492 342 L490 350 C470 345 450 346 436 358 Z" fill="#33231a"/>
+              <path id="browR" d="M588 352 C575 338 550 334 528 342 L530 350 C550 345 570 346 584 358 Z" fill="#33231a"/>
+            </g>
+            <!-- nez -->
+            <path d="M514 408 C510 426 502 440 503 450 C508 459 521 459 529 452" stroke="#c4835e" stroke-width="4.5" fill="none" stroke-linecap="round"/>
+            <ellipse cx="516" cy="452" rx="15" ry="6" fill="#c4835e" opacity=".3"/>
+            <!-- bouche -->
+            <g id="mouth">
+              <path id="mInner" fill="#5b1e22"/>
+              <g clip-path="url(#mouthClip)">
+                <rect id="mTeeth" fill="#fbf8f2"/>
+                <ellipse id="mTongue" fill="#c45d66"/>
+              </g>
+              <path id="mLips" fill="none" stroke="#a65a50" stroke-width="5" stroke-linejoin="round" stroke-linecap="round"/>
+              <path id="mLower" fill="none" stroke="#c98b77" stroke-width="3" opacity=".7" stroke-linecap="round"/>
+            </g>
+            <!-- cheveux -->
+            <path d="M388 372 C372 270 420 200 506 196 C592 192 646 250 632 372 C626 330 616 300 600 284 C566 298 500 296 452 270 C440 286 424 300 412 312 C402 330 394 350 388 372 Z" fill="url(#hairG)"/>
+            <path d="M452 270 C480 248 540 236 600 284" stroke="#5c4232" stroke-width="5" fill="none" opacity=".7"/>
+            <path d="M388 372 C384 350 386 330 392 318 L398 372Z M632 372 C636 350 634 330 628 318 L622 372Z" fill="#2e1f17"/>
+          </g>
+
+          <!-- bras droit animé (côté écran droit) -->
+          <g id="arm">
+            <path id="armUpper" stroke="#1b2b62" stroke-width="122" stroke-linecap="round" fill="none"/>
+            <path id="armFore" stroke="#203271" stroke-width="108" stroke-linecap="round" fill="none"/>
+            <g id="handG"></g>
+          </g>
+        </g>
+
+        <!-- pièces qui jaillissent -->
+        <g id="coins"></g>
+      </svg>
+
+      <!-- incrustations -->
+      <div class="ov" id="o-hook" style="left:0;width:1020px;top:40px;text-align:center"><span class="tag">
+        <svg viewBox="0 0 40 40" width="40" height="40"><circle cx="20" cy="20" r="18" fill="#c9a24f"/><path d="M12 21 L18 27 L29 14" stroke="#13204d" stroke-width="5" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        APPORTEURS D'AFFAIRES</span></div>
+
+      <div class="ov chip" id="o-pro1" style="left:34px;top:250px"><div class="ic">
+        <svg viewBox="0 0 42 42"><path d="M5 14 L9 5 H33 L37 14 Z" fill="#e3c67f"/><path d="M5 14 q4 6 8 0 q4 6 8 0 q4 6 8 0 q4 6 8 0" fill="#fff"/><rect x="8" y="20" width="26" height="17" rx="2" fill="#fff"/><rect x="17" y="25" width="8" height="12" fill="#1b2c66"/></svg>
+      </div>Commerçant</div>
+      <div class="ov chip" id="o-pro2" style="left:34px;top:370px"><div class="ic">
+        <svg viewBox="0 0 42 42"><path d="M13 5 v12 M9 5 v8 a4 4 0 0 0 8 0 v-8 M13 17 v20" stroke="#fff" stroke-width="3.5" fill="none" stroke-linecap="round"/><path d="M29 37 V5 c-6 3 -7 12 -6 18 h6" stroke="#e3c67f" stroke-width="3.5" fill="#e3c67f" stroke-linejoin="round" stroke-linecap="round"/></svg>
+      </div>Restaurateur</div>
+      <div class="ov chip" id="o-pro3" style="left:34px;top:490px"><div class="ic">
+        <svg viewBox="0 0 42 42"><path d="M20 18 L8 34" stroke="#e3c67f" stroke-width="6" stroke-linecap="round"/><path d="M14 10 l10 -5 l12 12 l-5 5 l-6 -4 l-5 3 z" fill="#fff"/></svg>
+      </div>Artisan</div>
+
+      <div class="ov" id="o-call" style="left:40px;top:215px"><div class="bubble">
+        <span style="color:#a9822f">«&nbsp;Bonjour, on vous appelle<br>de la part de Julie&nbsp;!&nbsp;»</span></div></div>
+
+      <div class="ov card" id="o-nego" style="left:640px;top:190px;width:340px;padding:26px 28px">
+        <div style="font-size:28px;font-weight:800;letter-spacing:.06em;color:#a9822f">CONTRAT D'ÉNERGIE</div>
+        <svg viewBox="0 0 284 150" width="284" height="150" style="display:block;margin:12px 0 8px">
+          <rect x="10" y="20" width="56" height="120" rx="8" fill="#d8dcea"/>
+          <rect x="84" y="45" width="56" height="95" rx="8" fill="#b9c2e0"/>
+          <rect x="158" y="70" width="56" height="70" rx="8" fill="#6f82c4"/>
+          <rect id="o-nego-bar" x="232" y="95" width="46" height="45" rx="8" fill="#c9a24f"/>
+          <path id="o-nego-arrow" d="M30 10 C110 20 170 50 250 80" stroke="#2f9e5e" stroke-width="7" fill="none" stroke-linecap="round" stroke-dasharray="300" stroke-dashoffset="300"/>
+        </svg>
+        <div id="o-nego-free" style="display:inline-block;padding:10px 20px;border-radius:999px;background:#13204d;color:#f4e7c4;font-size:30px;font-weight:800">0&nbsp;€ pour lui</div>
+      </div>
+
+      <div class="ov" id="o-sign" style="left:44px;top:230px"><div class="stamp">CONTRAT SIGNÉ ✓</div></div>
+      <div class="ov card" id="o-pay" style="left:44px;top:390px;padding:22px 30px;display:flex;align-items:center;gap:18px">
+        <svg viewBox="0 0 60 60" width="64" height="64"><circle cx="30" cy="30" r="28" fill="url(#coin)" stroke="#b48a39" stroke-width="3"/><text x="30" y="41" text-anchor="middle" font-size="32" font-weight="800" fill="#13204d" font-family="Plus Jakarta Sans">€</text></svg>
+        <div style="font-size:36px;font-weight:800;line-height:1.15">Vous êtes<br><span style="color:#a9822f">rémunéré&nbsp;!</span></div>
+      </div>
+
+      <div class="ov" id="o-url" style="left:0;width:1020px;top:46px;text-align:center"><span class="tag" style="font-size:46px;padding:20px 40px;letter-spacing:.01em">energy-market.fr</span></div>
+    </div>
+  </div>
+
+  <div id="quote" class="anim">
+    <div id="q-mark">“</div>
+    <div id="q-text"><p id="q-p"></p></div>
+    <div id="q-bar"></div>
+  </div>
+
+  <div id="bar" class="anim">
+    <div id="avatar"><svg viewBox="0 0 96 96" width="88" height="88">
+      <circle cx="48" cy="38" r="17" fill="none" stroke="#e3c67f" stroke-width="5"/>
+      <path d="M18 84 C20 64 32 58 48 58 C64 58 76 64 78 84" fill="none" stroke="#e3c67f" stroke-width="5" stroke-linecap="round"/></svg></div>
+    <div id="who">Thomas <span>•</span> Energy Market<small>Conseiller · Apporteurs</small></div>
+    <div id="pill"></div>
+  </div>
+</div>
+
+<script src="timing.js"></script>
+<script>
+/* ---------- Outils ---------- */
+const $ = id => document.getElementById(id);
+const clamp = (x, a = 0, b = 1) => Math.min(b, Math.max(a, x));
+const prog = (t, a, b) => clamp((t - a) / (b - a));
+const lerp = (a, b, k) => a + (b - a) * k;
+const ease = {
+  out: x => 1 - Math.pow(1 - x, 3),
+  outQuint: x => 1 - Math.pow(1 - x, 5),
+  in: x => x * x * x,
+  inOut: x => x < .5 ? 4 * x * x * x : 1 - Math.pow(-2 * x + 2, 3) / 2,
+  back: x => { const c1 = 1.70158, c3 = c1 + 1; return 1 + c3 * Math.pow(x - 1, 3) + c1 * Math.pow(x - 1, 2); },
+};
+// bruit doux déterministe (somme de sinus) pour les micro-mouvements
+const wob = (t, s = 1) => Math.sin(t * 1.3 * s) * .5 + Math.sin(t * 2.7 * s + 1.7) * .3 + Math.sin(t * 4.1 * s + .4) * .2;
+
+const TM = window.TIMING;
+const DURATION = TM.duration;
+const L = Object.fromEntries(TM.lines.map(l => [l.id, l]));
+const EV = TM.events;
+const lineAt = t => { let cur = TM.lines[0]; for (const l of TM.lines) if (t >= l.start - .25) cur = l; return cur; };
+
+/* Apparition / disparition standard d'un élément HTML. */
+function pop(el, t, tin, tout, o = {}) {
+  const dur = o.dur ?? .5, outDur = o.outDur ?? .3;
+  const k = (o.easeIn ?? ease.back)(prog(t, tin, tin + dur));
+  const q = ease.in(prog(t, tout - outDur, tout));
+  const s = lerp(o.scale ?? .6, 1, k) * (1 - q * .15);
+  const x = lerp(o.dx ?? 0, 0, k), y = lerp(o.dy ?? 30, 0, k) - q * 20;
+  el.style.opacity = Math.min(clamp(prog(t, tin, tin + dur * .5)), 1 - q);
+  el.style.transform = `translate(${x}px, ${y}px) scale(${s}) rotate(${o.rot ?? 0}deg)`;
+}
+
+/* ---------- Citation : mots révélés au rythme de la voix ---------- */
+const KEY = { hook: ['apporteurs', "d'affaires."], pro: ['pro', 'commerçant,', 'restaurateur,', 'artisan'],
+  contact: ['contact,', 'votre', 'part.'], nego: ['gratuitement'], pay: ['rémunère'], cta: ['energy-market.fr'],
+  intro: ['Energy', 'Market.', "d'Energy"] };
+const qp = $('q-p');
+const qWords = {};
+let qShown = null;
+function buildQuote(line) {
+  qp.innerHTML = '';
+  qWords[line.id] = line.words.map(([w, at], i) => {
+    const s = document.createElement('span');
+    s.className = 'w' + (KEY[line.id].some(k => w.startsWith(k)) ? ' k' : '');
+    s.textContent = (i ? ' ' : '“') + w + (i === line.words.length - 1 ? '”' : '');
+    qp.appendChild(s);
+    return { el: s, at };
+  });
+  qShown = line.id;
+}
+
+/* ---------- Pastille dorée de la barre du bas ---------- */
+const ICON = {
+  user: '<svg viewBox="0 0 46 46"><circle cx="23" cy="16" r="8" fill="none" stroke="#13204d" stroke-width="4"/><path d="M8 40 c1-10 7-13 15-13 s14 3 15 13" fill="none" stroke="#13204d" stroke-width="4" stroke-linecap="round"/><path d="M34 6 v10 M29 11 h10" stroke="#13204d" stroke-width="4" stroke-linecap="round"/></svg>',
+  shop: '<svg viewBox="0 0 46 46"><path d="M6 16 L10 6 H36 L40 16 Z" fill="#13204d"/><rect x="9" y="20" width="28" height="20" rx="2" fill="none" stroke="#13204d" stroke-width="4"/><rect x="19" y="27" width="8" height="13" fill="#13204d"/></svg>',
+  phone: '<svg viewBox="0 0 46 46"><path d="M14 5 l6 9 -4 4 c2 5 6 9 11 11 l4 -4 9 6 -3 7 c-14 1 -30 -15 -29 -29 z" fill="#13204d"/></svg>',
+  free: '<svg viewBox="0 0 46 46"><circle cx="23" cy="23" r="18" fill="none" stroke="#13204d" stroke-width="4"/><path d="M15 24 l6 6 11 -13" stroke="#13204d" stroke-width="4.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>',
+  euro: '<svg viewBox="0 0 46 46"><rect x="3" y="10" width="40" height="26" rx="5" fill="none" stroke="#13204d" stroke-width="4"/><text x="23" y="30" text-anchor="middle" font-size="19" font-weight="800" fill="#13204d" font-family="Plus Jakarta Sans">€</text></svg>',
+  web: '<svg viewBox="0 0 46 46"><circle cx="23" cy="23" r="18" fill="none" stroke="#13204d" stroke-width="4"/><ellipse cx="23" cy="23" rx="8" ry="18" fill="none" stroke="#13204d" stroke-width="3"/><path d="M5 23 h36" stroke="#13204d" stroke-width="3"/></svg>',
+};
+const PILLS = [
+  ['intro', 'user', 'Devenez apporteur'],
+  ['pro', 'shop', 'Commerces · Restos · Artisans'],
+  ['contact', 'phone', 'Un simple contact suffit'],
+  ['nego', 'free', 'Gratuit pour le pro'],
+  ['pay', 'euro', 'Rémunéré à la signature'],
+  ['cta', 'web', 'energy-market.fr'],
+];
+const pillEls = PILLS.map(([id, ic, txt]) => {
+  const d = document.createElement('div'); d.className = 'pt';
+  d.innerHTML = ICON[ic] + `<span>${txt}</span>`;
+  $('pill').appendChild(d);
+  return { el: d, at: id === 'intro' ? 0 : L[id].start - .2 };
+});
+// ajuste la taille du texte pour qu'il tienne dans la pastille
+document.fonts.ready.then(() => pillEls.forEach(({ el }) => {
+  const sp = el.querySelector('span'); let fs = 33;
+  while (sp.offsetWidth > 430 - 46 - 16 - 30 && fs > 22) sp.style.fontSize = (--fs) + 'px';
+}));
+
+/* ---------- Mains ---------- */
+const SKIN = '#e9b18b', SKIN_D = '#c98b66';
+const HANDS = {
+  // main ouverte (coucou)
+  open: `<g>
+    <rect x="-46" y="-104" width="92" height="104" rx="40" fill="${SKIN}"/>
+    <rect x="-44" y="-186" width="22" height="100" rx="11" fill="${SKIN}"/>
+    <rect x="-20" y="-200" width="22" height="112" rx="11" fill="${SKIN}"/>
+    <rect x="4" y="-194" width="22" height="106" rx="11" fill="${SKIN}"/>
+    <rect x="27" y="-172" width="20" height="86" rx="10" fill="${SKIN}"/>
+    <rect x="-34" y="-60" width="24" height="84" rx="12" fill="${SKIN}" transform="rotate(-58 -34 -60)"/>
+    <path d="M-30 -40 C-10 -30 10 -30 30 -44" stroke="${SKIN_D}" stroke-width="3" fill="none" opacity=".6"/>
+    <rect x="-52" y="-6" width="104" height="34" rx="10" fill="#f7f8fb"/></g>`,
+  // téléphone avec la fiche contact
+  phone: `<g>
+    <rect x="-50" y="-120" width="100" height="120" rx="44" fill="${SKIN}"/>
+    <g transform="translate(-6 -150) rotate(-6)">
+      <rect x="-92" y="-250" width="184" height="360" rx="30" fill="#14193a"/>
+      <rect x="-82" y="-238" width="164" height="336" rx="22" fill="#f7f4ee"/>
+      <rect x="-82" y="-238" width="164" height="92" rx="22" fill="#1b2c66"/>
+      <circle cx="0" cy="-160" r="40" fill="#e3c67f" stroke="#fff" stroke-width="5"/>
+      <path d="M-22 -166 L-16 -180 H16 L22 -166 Z" fill="#13204d"/><rect x="-17" y="-164" width="34" height="22" fill="#fff"/><rect x="-5" y="-157" width="10" height="15" fill="#13204d"/>
+      <text x="0" y="-90" text-anchor="middle" font-family="Plus Jakarta Sans" font-weight="800" font-size="19" fill="#13204d">Boulangerie</text>
+      <text x="0" y="-66" text-anchor="middle" font-family="Plus Jakarta Sans" font-weight="800" font-size="19" fill="#13204d">Martin</text>
+      <text x="0" y="-36" text-anchor="middle" font-family="Plus Jakarta Sans" font-weight="600" font-size="15" fill="#6b7393">06 •• •• •• ••</text>
+      <g class="callbtn"><rect x="-62" y="2" width="124" height="52" rx="26" fill="#2f9e5e"/>
+      <path d="M-30 16 l4 6 -3 3 c1 3 4 6 7 7 l3 -3 6 4 -2 5 c-9 1 -19 -9 -18 -18 z" fill="#fff"/>
+      <text x="14" y="36" text-anchor="middle" font-family="Plus Jakarta Sans" font-weight="800" font-size="18" fill="#fff">Appeler</text></g>
+    </g>
+    <rect x="-112" y="-150" width="40" height="30" rx="15" fill="${SKIN}"/>
+    <rect x="-116" y="-118" width="44" height="30" rx="15" fill="${SKIN}"/>
+    <rect x="-110" y="-86" width="40" height="28" rx="14" fill="${SKIN}"/>
+    <rect x="50" y="-120" width="30" height="76" rx="15" fill="${SKIN}" transform="rotate(-40 50 -120)"/>
+    <rect x="-56" y="-6" width="112" height="34" rx="10" fill="#f7f8fb"/></g>`,
+  // éventail de billets
+  bills: `<g>
+    <g transform="translate(0 -110)">
+      ${[-32, -12, 8, 28].map((a, i) => `<g transform="rotate(${a})">
+        <rect x="-62" y="-250" width="124" height="230" rx="10" fill="url(#${i % 2 ? 'bill2' : 'bill'})" stroke="#b3905a" stroke-width="3"/>
+        <rect x="-48" y="-236" width="96" height="202" rx="6" fill="none" stroke="rgba(120,90,40,.35)" stroke-width="3"/>
+        <circle cx="0" cy="-150" r="30" fill="rgba(255,255,255,.5)"/>
+        <text x="0" y="-138" text-anchor="middle" font-family="Plus Jakarta Sans" font-weight="800" font-size="36" fill="#7a5a22">€</text>
+        <text x="-38" y="-212" font-family="Plus Jakarta Sans" font-weight="800" font-size="24" fill="#7a5a22">50</text></g>`).join('')}
+    </g>
+    <rect x="-52" y="-150" width="104" height="150" rx="44" fill="${SKIN}"/>
+    <rect x="-58" y="-150" width="40" height="30" rx="15" fill="${SKIN_D}" opacity=".35"/>
+    <path d="M-40 -118 h70 M-42 -86 h72 M-40 -54 h66" stroke="${SKIN_D}" stroke-width="3" opacity=".6"/>
+    <rect x="40" y="-200" width="30" height="76" rx="15" fill="${SKIN}" transform="rotate(-20 40 -200)"/>
+    <rect x="-56" y="-6" width="112" height="34" rx="10" fill="#f7f8fb"/></g>`,
+  // index levé
+  point: `<g>
+    <rect x="-50" y="-120" width="100" height="120" rx="36" fill="${SKIN}"/>
+    <path d="M-50 -88 h90 M-50 -58 h94 M-50 -30 h90" stroke="${SKIN_D}" stroke-width="3.5" opacity=".7"/>
+    <rect x="-4" y="-236" width="34" height="136" rx="17" fill="${SKIN}"/>
+    <rect x="-62" y="-104" width="30" height="74" rx="15" fill="${SKIN}" transform="rotate(30 -62 -104)"/>
+    <rect x="-56" y="-6" width="112" height="34" rx="10" fill="#f7f8fb"/></g>`,
+  // pouce levé
+  thumb: `<g>
+    <rect x="-52" y="-130" width="104" height="130" rx="34" fill="${SKIN}"/>
+    <path d="M-52 -100 h96 M-52 -70 h100 M-52 -40 h96" stroke="${SKIN_D}" stroke-width="3.5" opacity=".7"/>
+    <rect x="-50" y="-232" width="38" height="120" rx="19" fill="${SKIN}"/>
+    <path d="M-44 -150 q14 6 28 0" stroke="${SKIN_D}" stroke-width="3" fill="none" opacity=".6"/>
+    <rect x="-58" y="-6" width="116" height="34" rx="10" fill="#f7f8fb"/></g>`,
+};
+const handG = $('handG');
+handG.innerHTML = Object.entries(HANDS).map(([k, v]) => `<g data-h="${k}" style="display:none">${v}</g>`).join('');
+const handParts = Object.fromEntries([...handG.children].map(g => [g.dataset.h, g]));
+
+/* ---------- Pièces ---------- */
+const COINS = 14, coinEls = [];
+for (let i = 0; i < COINS; i++) {
+  const g = document.createElementNS('http://www.w3.org/2000/svg', 'g');
+  g.innerHTML = '<circle r="26" fill="url(#coin)" stroke="#b48a39" stroke-width="3"/><text y="10" text-anchor="middle" font-size="28" font-weight="800" fill="#7a5a22" font-family="Plus Jakarta Sans">€</text>';
+  $('coins').appendChild(g);
+  const a = -Math.PI / 2 + (i / (COINS - 1) - .5) * 2.4;
+  coinEls.push({ g, vx: Math.cos(a) * (380 + (i * 53) % 160), vy: Math.sin(a) * (620 + (i * 71) % 220), spin: (i % 2 ? 1 : -1) * (200 + i * 20) });
+}
+
+/* ---------- Bouche ---------- */
+function mouthAt(t) {
+  const f = clamp(t * TM.fps, 0, TM.mouth.length - 1), i = Math.floor(f), r = f - i;
+  const g = a => lerp(a[i], a[Math.min(i + 1, a.length - 1)], r);
+  return { o: g(TM.mouth), rd: g(TM.round) };
+}
+function drawMouth(o, rd, smile) {
+  const cx = 512, cy = 478;
+  const w = 76 - 28 * rd * o + smile * 10, h = 40 * o;
+  const lx = cx - w / 2, rx = cx + w / 2, cyc = cy - smile * 8;
+  const top = cy + 3 - h * .28, bot = cy + 7 + h * .95;
+  const d = `M${lx},${cyc} Q${cx},${top} ${rx},${cyc} Q${cx},${bot + 4} ${lx},${cyc} Z`;
+  $('mInner').setAttribute('d', d);
+  $('mInner').setAttribute('opacity', clamp(o * 8));
+  $('mouthClipPath').setAttribute('d', d);
+  const th = Math.min(10, h * .3);
+  Object.entries({ x: cx - w * .34, y: top - 4, width: w * .68, height: th + 6, rx: 4 }).forEach(([k, v]) => $('mTeeth').setAttribute(k, v));
+  Object.entries({ cx: cx, cy: bot + 4, rx: w * .3, ry: Math.max(2, h * .38) }).forEach(([k, v]) => $('mTongue').setAttribute(k, v));
+  // contour : simple trait souriant quand la bouche est fermée
+  $('mLips').setAttribute('d', o < .05 ? `M${lx},${cyc} Q${cx},${cy + 10} ${rx},${cyc}` : d);
+  $('mLips').setAttribute('stroke-width', 4.5);
+  $('mLower').setAttribute('d', `M${cx - w * .24},${bot + 13} Q${cx},${bot + 18} ${cx + w * .24},${bot + 13}`);
+}
+
+/* ---------- Bras droit : cinématique inverse à 2 segments ---------- */
+const SH = [742, 690], L1 = 230, L2 = 220;
+function drawArm(hx, hy, rot, pose, scale = 1) {
+  let dx = hx - SH[0], dy = hy - SH[1], dist = Math.hypot(dx, dy);
+  const dd = Math.min(dist, L1 + L2 - 1);
+  const a = Math.atan2(dy, dx), cosA = (L1 * L1 + dd * dd - L2 * L2) / (2 * L1 * dd);
+  const b = Math.acos(clamp(cosA, -1, 1));
+  // coude toujours vers l'extérieur du corps (côté droit de l'écran)
+  const ang = Math.cos(a - b) > Math.cos(a + b) ? a - b : a + b;
+  const ex = SH[0] + Math.cos(ang) * L1, ey = SH[1] + Math.sin(ang) * L1;
+  $('armUpper').setAttribute('d', `M${SH[0]},${SH[1]} L${ex},${ey}`);
+  $('armFore').setAttribute('d', `M${ex},${ey} L${hx},${hy}`);
+  for (const [k, g] of Object.entries(handParts)) g.style.display = k === pose ? '' : 'none';
+  handG.setAttribute('transform', `translate(${hx} ${hy}) rotate(${rot}) scale(${scale})`);
+}
+
+/* Poses clés du bras : [t, x, y, rotation, main] — interpolées avec easing. */
+const REST = [900, 1240, -10];
+const KEYS = [];
+function gesture(t0, t1, pos, pose, extra = {}) { KEYS.push({ t0, t1, pos, pose, ...extra }); }
+gesture(L.intro.start - .45, L.intro.start + 1.55, [830, 500, 10], 'open', { wave: true });
+gesture(L.pro.start + .1, L.pro.start + 1.3, [800, 600, 8], 'point', { count: true });
+gesture(EV.contact - .55, L.contact.end + .25, [800, 760, 4], 'phone');
+gesture(EV.sign - .1, L.pay.end + .35, [790, 700, 6], 'bills');
+gesture(L.cta.start + .05, DURATION + 1, [790, 640, -4], 'thumb');
+
+function armAt(t) {
+  for (const g of KEYS) {
+    if (t < g.t0 || t > g.t1 + .45) continue;
+    const kin = ease.outQuint(prog(t, g.t0, g.t0 + .45)), kout = ease.inOut(prog(t, g.t1, g.t1 + .45));
+    const k = kin * (1 - kout);
+    let [x, y, r] = g.pos;
+    if (g.wave) r += Math.sin((t - g.t0) * 13) * 16 * clamp(prog(t, g.t0 + .3, g.t0 + .5));
+    if (g.count) { y += Math.sin((t - g.t0) * 3) * 10; r += Math.sin((t - g.t0) * 2.2) * 6; }
+    else { y += wob(t, 1.4) * 6; r += wob(t + 3, 1.1) * 3; }
+    return { x: lerp(REST[0], x, k), y: lerp(REST[1], y, k), r: lerp(REST[2], r, k), pose: g.pose };
+  }
+  return { x: REST[0], y: REST[1], r: REST[2], pose: 'open' };
+}
+
+/* ---------- Clignements, sourcils, hochements ---------- */
+const BLINKS = [2.1, 5.3, 8.6, 11.2, 13.9, 17.1, 20.9, 23.9, 25.4];
+const NODS = [L.hook.start + .1, EV.contact, L.nego.start + .1, EV.pay, EV.url];
+const RAISE = [[L.intro.start - .1, L.intro.start + .7], [L.pro.start + .4, L.pro.start + 1.2], [L.pro.end - .8, L.pro.end],
+  [EV.sign - .1, EV.pay + .9], [L.cta.start, L.cta.start + .8]];
+
+function render(t) {
+  /* --- Mise en place générale --- */
+  const kin = ease.outQuint(prog(t, 0, .6));
+  $('head').style.transform = `translateY(${lerp(-60, 0, kin)}px)`;
+  $('head').style.opacity = kin;
+  $('rule').style.transform = `scaleX(${ease.out(prog(t, .2, .9))})`;
+  const kf = ease.outQuint(prog(t, .05, .7));
+  $('frame').style.transform = `translateY(${lerp(80, 0, kf)}px) scale(${lerp(.94, 1, kf)})`;
+  $('frame').style.opacity = clamp(prog(t, .05, .35));
+  const kq = ease.back(prog(t, .3, .85));
+  $('quote').style.transform = `translateY(${lerp(120, 0, kq)}px)`;
+  $('quote').style.opacity = clamp(prog(t, .3, .5));
+  const kb = ease.back(prog(t, .45, 1));
+  $('bar').style.transform = `translateY(${lerp(140, 0, kb)}px)`;
+  $('bar').style.opacity = clamp(prog(t, .45, .65));
+
+  /* --- Caméra : léger push-in + coups de zoom sur les temps forts --- */
+  let zoom = 1 + .05 * ease.inOut(prog(t, 0, DURATION));
+  for (const e of [EV.contact, EV.pay]) zoom += .035 * Math.sin(Math.PI * prog(t, e - .2, e + .9));
+  $('scene').style.transform = `scale(${zoom}) translate(${wob(t, .3) * 4}px, ${wob(t + 9, .25) * 3}px)`;
+  $('curtain').setAttribute('transform', `translate(${Math.sin(t * .8) * 6} 0) skewX(${Math.sin(t * .6) * 1.2})`);
+
+  /* --- Personnage --- */
+  const { o, rd } = mouthAt(t);
+  let nod = 0;
+  for (const n of NODS) nod += Math.sin(Math.PI * prog(t, n - .05, n + .45)) * 5;
+  const talk = o * 2.2;
+  const tilt = wob(t, .7) * 2.4 + Math.sin(t * 9) * talk * .6;
+  const hx = wob(t + 4, .5) * 5, hy = wob(t + 2, .6) * 3 + nod - talk;
+  $('headG').setAttribute('transform', `translate(${hx} ${hy}) rotate(${tilt} 510 560)`);
+  const breath = Math.sin(t * 2.1) * .006;
+  $('body').setAttribute('transform', `translate(0 ${-breath * 600}) scale(1 ${1 + breath})`);
+  $('body').style.transformOrigin = '510px 1028px';
+  // regard : suit la main quand elle tient quelque chose, sinon caméra avec micro-saccades
+  const arm = armAt(t);
+  const lookHand = arm.pose === 'phone' || arm.pose === 'bills' ? clamp((960 - arm.y) / 260) * Math.sin(Math.PI * clamp((t * 1.3) % 2.4 / 1.2)) : 0;
+  const gx = lookHand * 7 + Math.round(wob(t * .6, 1)) * 2, gy = lookHand * 2;
+  document.querySelectorAll('.iris').forEach(el => el.setAttribute('transform', `translate(${gx} ${gy})`));
+  let blink = 0;
+  for (const b of BLINKS) blink = Math.max(blink, Math.sin(Math.PI * prog(t, b, b + .18)));
+  let raise = 0;
+  for (const [a, b] of RAISE) raise = Math.max(raise, Math.sin(Math.PI * prog(t, a, b)) ** .6);
+  const lidH = blink * 34 + (1 - raise) * 2;
+  document.querySelectorAll('.lid').forEach(el => el.setAttribute('height', lidH));
+  document.querySelectorAll('.lash').forEach((el, i) => {
+    const x = i ? 558 : 462, y = 384 - 20 + lidH * .9, c = lerp(y - 4, y + 8, blink);
+    el.setAttribute('d', `M${x - 26},${Math.max(y, 380 - 6 + blink * 10)} Q${x},${c} ${x + 26},${Math.max(y, 380 - 6 + blink * 10)}`);
+  });
+  $('brows').setAttribute('transform', `translate(0 ${-raise * 12 - talk * 1.5})`);
+  const speaking = TM.lines.some(l => t > l.start - .1 && t < l.end + .1);
+  const smile = speaking ? .55 + raise * .3 : .9;
+  drawMouth(o, rd, smile);
+  const sc = arm.pose === 'phone' ? 1.02 : 1;
+  drawArm(arm.x, arm.y, arm.r, arm.pose, sc);
+  const call = Math.sin(Math.PI * clamp(prog(t, EV.call - .1, EV.call + .5))) * .15;
+  document.querySelectorAll('.callbtn').forEach(el => el.setAttribute('transform', `translate(0 28) scale(${1 + call}) translate(0 -28)`));
+
+  /* --- Incrustations --- */
+  pop($('o-hook'), t, L.hook.start + .05, L.pro.start - .1, { dy: -40 });
+  [['o-pro1', 'commerçant'], ['o-pro2', 'restaurateur'], ['o-pro3', 'artisan']].forEach(([id, w]) => {
+    const at = L.pro.spoken.find(s => s[0].toLowerCase() === w)[1];
+    pop($(id), t, at - .08, L.contact.start - .15, { dx: -120, dy: 0, scale: .8 });
+  });
+  pop($('o-call'), t, EV.call - .25, L.nego.start - .1, { scale: .4, dy: 40 });
+  pop($('o-nego'), t, L.nego.start + .1, L.pay.start - .1, { dx: 120, dy: 0, scale: .85 });
+  const kn = ease.inOut(prog(t, L.nego.start + .5, L.nego.start + 1.6));
+  $('o-nego-arrow').setAttribute('stroke-dashoffset', 300 * (1 - kn));
+  const freeAt = L.nego.spoken.find(s => s[0].startsWith('gratuit'))[1];
+  const kfree = ease.back(prog(t, freeAt - .1, freeAt + .35));
+  $('o-nego-free').style.transform = `scale(${lerp(.4, 1, kfree)})`;
+  $('o-nego-free').style.opacity = clamp(prog(t, freeAt - .1, freeAt + .1));
+  pop($('o-sign'), t, EV.sign - .05, L.cta.start - .1, { scale: 2.2, dy: 0, rot: -8, dur: .35, easeIn: ease.outQuint });
+  pop($('o-pay'), t, EV.pay - .05, L.cta.start - .1, { dx: -100, dy: 0, scale: .8 });
+  pop($('o-url'), t, EV.url - .15, 999, { dy: -50, scale: .5 });
+
+  /* --- Pluie de pièces sur « rémunère » --- */
+  const ct = t - EV.pay;
+  coinEls.forEach((c, i) => {
+    const tt = ct - i * .025;
+    if (tt < 0 || tt > 1.6) { c.g.setAttribute('opacity', 0); return; }
+    const x = 770 + c.vx * tt, y = 460 + c.vy * tt + 900 * tt * tt;
+    c.g.setAttribute('opacity', 1 - prog(tt, 1.1, 1.6));
+    c.g.setAttribute('transform', `translate(${x} ${y}) rotate(${c.spin * tt}) scale(${Math.cos(tt * 9 + i) * .35 + .75} 1)`);
+  });
+
+  /* --- Citation --- */
+  const line = lineAt(t);
+  if (qShown !== line.id) buildQuote(line);
+  const tIn = line.start - .25;
+  const kl = ease.outQuint(prog(t, tIn, tIn + .35));
+  const next = TM.lines[TM.lines.indexOf(line) + 1];
+  const kout = next ? ease.in(prog(t, next.start - .45, next.start - .25)) : 0;
+  qp.style.transform = `translateY(${lerp(40, 0, kl) - kout * 30}px)`;
+  qp.style.opacity = Math.min(kl, 1 - kout);
+  for (const w of qWords[line.id]) {
+    const k = ease.out(prog(t, w.at - .06, w.at + .14));
+    w.el.style.opacity = lerp(.22, 1, k);
+    w.el.style.transform = `translateY(${lerp(10, 0, k)}px)`;
+  }
+  $('q-bar').style.width = (prog(t, line.start, line.end) * 100) + '%';
+
+  /* --- Pastille dorée --- */
+  let cur = 0;
+  pillEls.forEach((p, i) => { if (t >= p.at) cur = i; });
+  pillEls.forEach((p, i) => {
+    const kIn = i === 0 ? ease.back(prog(t, .7, 1.1)) : ease.outQuint(prog(t, p.at, p.at + .4));
+    const nx = pillEls[i + 1], kOut = nx ? ease.in(prog(t, nx.at - .05, nx.at + .25)) : 0;
+    p.el.style.opacity = i > cur + 1 ? 0 : Math.min(kIn, 1 - kOut);
+    p.el.style.transform = `translateY(${lerp(60, 0, kIn) - kOut * 60}px)`;
+  });
+  const shine = (t % 3.2) / 3.2;
+  $('pill').style.backgroundImage = `linear-gradient(105deg, transparent ${shine * 160 - 30}%, rgba(255,255,255,.45) ${shine * 160 - 20}%, transparent ${shine * 160 - 10}%), linear-gradient(135deg, #f1d58c 0%, #c9a24f 55%, #b48a39 100%)`;
+}
+
+window.DURATION = DURATION;
+window.render = render;
+const params = new URLSearchParams(location.search);
+if (params.has('t')) render(parseFloat(params.get('t')));
+else if (!params.has('capture')) { // aperçu en boucle dans le navigateur
+  const t0 = performance.now();
+  (function loop() { render(((performance.now() - t0) / 1000) % DURATION); requestAnimationFrame(loop); })();
+}
+</script>
+</body>
+</html>

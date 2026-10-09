@@ -21,3 +21,28 @@
 | 14,5 – 20,5 s | 4 étapes — « Envoyez votre facture : on analyse, on négocie, et vous décidez. » |
 | 20,5 – 25 s | 0 € / 100 % — « Zéro euro d'honoraires, et une obligation de résultat. » |
 | 25 – 30 s | CTA — « Rendez-vous sur energy-market point fr ! » |
+
+---
+
+# Energy Market — « On recherche des apporteurs d'affaires » (9:16, Instagram)
+
+`energy-market-apporteur-9x16.mp4` : 1080×1920, 30 fps, H.264 + AAC, ~26 s. Même style que le visuel témoignage
+(fond crème, logo, cadre marine à coins dorés, citation encadrée d'or, barre marine + pastille dorée), avec un
+personnage illustré, **Thomas**, qui parle face caméra (bouche synchronisée sur la voix, clignements, gestes).
+
+- `apporteur/video.html` : l'animation (`?t=12.5` pour figer une image).
+- `apporteur/audio/script.json` : le texte de Thomas (voix `fr-FR-RemyMultilingualNeural`).
+- `apporteur/audio/make_audio.py` : voix + musique synthétisée + bruitages, et génère `apporteur/timing.js`
+  (calage mot à mot des sous-titres + ouverture de bouche image par image).
+- Régénérer : `python3 apporteur/audio/make_audio.py` (ou `--no-tts`), puis
+  `node render.js --page apporteur/video.html --audio apporteur/audio/soundtrack.wav --out energy-market-apporteur-9x16.mp4`.
+
+| Temps | Réplique | À l'image |
+|---|---|---|
+| 0,8 – 3,8 s | « Salut ! Moi c'est Thomas, d'Energy Market. » | Coucou de la main |
+| 4,3 – 6,1 s | « On recherche des apporteurs d'affaires. » | Bandeau « Apporteurs d'affaires » |
+| 6,5 – 11,2 s | « Vous connaissez un pro ? Un commerçant, un restaurateur, un artisan ? » | Index levé, 3 pastilles métiers |
+| 11,6 – 15,3 s | « Donnez-nous juste son contact, et on l'appelle de votre part. » | Téléphone + fiche contact, bulle d'appel |
+| 15,7 – 18,6 s | « On négocie son contrat d'énergie, gratuitement pour lui. » | Carte contrat + « 0 € pour lui » |
+| 19,0 – 20,8 s | « Et s'il signe… on vous rémunère ! » | Tampon « Contrat signé », billets, pluie de pièces |
+| 21,2 – 26 s | « Rendez-vous sur energy-market.fr ! » | Pouce levé + URL |

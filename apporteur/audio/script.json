@@ -1,0 +1,23 @@
+{
+  "voice": "fr-FR-RemyMultilingualNeural",
+  "rate": "+6%",
+  "start": 0.8,
+  "gap": 0.45,
+  "tail": 2.6,
+  "lines": [
+    { "id": "intro",   "tts": "Salut ! Moi c'est Thomas, d'Energy Market.",
+      "show": "Salut ! Moi c'est Thomas, d'Energy Market." },
+    { "id": "hook",    "tts": "On recherche des apporteurs d'affaires.",
+      "show": "On recherche des apporteurs d'affaires." },
+    { "id": "pro",     "tts": "Vous connaissez un pro ? Un commerçant, un restaurateur, un artisan ?",
+      "show": "Vous connaissez un pro ? Un commerçant, un restaurateur, un artisan ?" },
+    { "id": "contact", "tts": "C'est simple : donnez-nous juste son contact, et on l'appelle de votre part.",
+      "show": "C'est simple : donnez-nous juste son contact, et on l'appelle de votre part." },
+    { "id": "nego",    "tts": "On négocie son contrat d'énergie, gratuitement pour lui.",
+      "show": "On négocie son contrat d'énergie, gratuitement pour lui." },
+    { "id": "pay",     "tts": "Et s'il signe… on vous rémunère !",
+      "show": "Et s'il signe… on vous rémunère !" },
+    { "id": "cta",     "tts": "Rendez-vous sur energy-market point fr !",
+      "show": "Rendez-vous sur energy-market.fr !" }
+  ]
+}
