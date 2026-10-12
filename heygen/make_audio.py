@@ -11,9 +11,9 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 spec = importlib.util.spec_from_file_location('app_audio', os.path.join(HERE, '..', 'apporteur', 'audio', 'make_audio.py'))
 A = importlib.util.module_from_spec(spec); spec.loader.exec_module(A)   # réutilise la musique de la vidéo « apporteur »
 
-DUR = 24.2                                   # doit suivre DURATION dans overlay.html
-PHASES = [3.3, 7.05, 9.2, 10.45, 13.9, 16.2, 18.4]
-COMMISSION_AT, VIDEO_END = 17.55, 21.07
+DUR = 30.1                                   # doit suivre DURATION dans overlay.html
+PHASES = [4.28, 8.9, 11.45, 13.1, 17.6, 20.35, 23.65]
+COMMISSION_AT, VIDEO_END = 22.5, 26.97
 
 voice = A.load(os.path.join(HERE, 'source.mp4'))
 N = int(DUR * A.SR)

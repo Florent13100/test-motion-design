@@ -51,12 +51,14 @@ personnage illustré, **Thomas**, qui parle face caméra (bouche synchronisée s
 
 # Habillage Energy Market d'une vidéo HeyGen (9:16)
 
-`energy-market-heygen-9x16.mp4` : la vidéo avatar HeyGen recadrée dans le cadre marine/or du visuel témoignage,
-avec logo, étiquettes d'étapes calées sur la voix, barre du bas + pastille dorée, pluie de pièces sur « commission »,
-musique de fond (ducking) et écran de fin (3 étapes + energy-market.fr), 24,2 s, −14 LUFS.
+`energy-market-heygen-9x16.mp4` : la vidéo avatar HeyGen (export 720p sans filigrane, image utile 3:4) recadrée dans le
+cadre marine/or du visuel témoignage, avec logo, étiquettes d'étapes et sous-titres mot à mot calés sur la voix,
+barre du bas + pastille dorée, pluie de pièces sur « commission », musique de fond (ducking) et écran de fin
+(3 étapes + energy-market.fr), 30,1 s, −14 LUFS.
 
-- `heygen/overlay.html` : calque transparent (timings des étapes dans `PHASES`).
+- `heygen/overlay.html` : calque transparent (étapes dans `PHASES`, sous-titres dans `CAPTIONS`).
 - `heygen/make_audio.py` : voix d'origine + musique + bruitages.
 - `heygen/compose.sh` : rendu du calque puis incrustation ffmpeg. Déposer la vidéo HeyGen dans `heygen/source.mp4`
   (non versionnée) puis `bash heygen/compose.sh`. Si le texte change, recaler `PHASES` (overlay.html) et
-  `PHASES`/`COMMISSION_AT` (make_audio.py) — `ffmpeg -i heygen/source.mp4 -af silencedetect=noise=-35dB:d=0.18 -f null -`.
+  `PHASES`/`COMMISSION_AT` (make_audio.py), et les sous-titres `CAPTIONS` (overlay.html) ; calage mot à mot obtenu avec
+  faster-whisper (`word_timestamps=True`).

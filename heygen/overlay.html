@@ -56,6 +56,17 @@
   .tag .n svg { width: 36px; height: 36px; }
   .tag b { color: var(--gold-2); font-weight: 800; }
 
+  /* Sous-titres */
+  #caps { position: absolute; left: 30px; top: 1520px; width: 1020px; height: 200px; }
+  .cap { position: absolute; left: 50%; bottom: 0; width: 960px; text-align: center; opacity: 0; transform-origin: 50% 100%;
+    font-size: 64px; font-weight: 800; line-height: 1.12; letter-spacing: -.015em; color: #fff;
+    -webkit-text-stroke: 3px var(--navy-deep); paint-order: stroke fill;
+    text-shadow: 0 4px 0 var(--navy-deep), 0 8px 24px rgba(10,16,40,.55); }
+  .cw { display: inline-block; margin: 0 .07em; transform-origin: 50% 80%; }
+  .cw.key { color: var(--gold-2); }
+  .cw.cur { color: #f1d58c; }
+  .cw.key.cur { color: #fff3cf; }
+
   /* Barre du bas */
   #bar { position: absolute; left: 62px; top: 1740px; width: 956px; height: 130px; border-radius: 30px; background: var(--navy);
     display: flex; align-items: center; padding: 0 12px 0 20px; gap: 18px; box-shadow: 0 20px 50px rgba(13,20,50,.4);
@@ -111,6 +122,7 @@
   </div>
 
   <div id="tagwrap"></div>
+  <div id="caps"></div>
 
   <div id="bar">
     <div id="avatar"><svg viewBox="0 0 96 96" width="80" height="80">
@@ -152,21 +164,42 @@ const ease = {
   back: x => { const c1 = 1.70158, c3 = c1 + 1; return 1 + c3 * Math.pow(x - 1, 3) + c1 * Math.pow(x - 1, 2); },
 };
 
-/* Calage sur la voix de la vidéo HeyGen (détection des silences, ffmpeg silencedetect) */
-const VIDEO_END = 21.07;           // fin de la vidéo source
-const DURATION = 24.2;             // + écran de fin
+/* Calage sur la voix de la vidéo HeyGen (transcription mot à mot faster-whisper) */
+const VIDEO_END = 26.97;           // fin de la vidéo source
+const DURATION = 30.1;             // + écran de fin
 const PHASES = [
   // [début, fin, icône/numéro, texte de l'étiquette, icône pastille, texte pastille]
-  [0.25, 3.3, 'q', 'Vous connaissez <b>un pro</b>&nbsp;?', 'shop', 'Commerces · Restos · Artisans'],
-  [3.3, 6.0, 'user', 'Devenez <b>apporteur d\'affaires</b>', 'user', 'Devenez apporteur'],
-  [7.05, 9.2, '1', 'Envoyez <b>son nom et son numéro</b>', 'phone', 'Un simple contact suffit'],
-  [9.2, 10.45, '2', 'On l\'appelle <b>de votre part</b>', 'phone', 'Un simple contact suffit'],
-  [10.45, 13.9, '3', 'On négocie <b>son contrat d\'énergie</b>', 'free', 'Gratuit pour le pro'],
-  [13.9, 16.2, 'ok', '<b>Gratuit</b> et sans engagement', 'free', 'Gratuit pour le pro'],
-  [16.2, 18.4, 'euro', 'Il signe = <b>commission pour vous</b>', 'euro', 'Rémunéré à la signature'],
-  [18.4, VIDEO_END, 'web', '<b>energy-market.fr</b>', 'web', 'energy-market.fr'],
+  [0.2, 4.28, 'q', 'Vous connaissez <b>un pro</b>&nbsp;?', 'shop', 'Commerces · Restos · Artisans'],
+  [4.28, 8.7, 'user', 'Devenez <b>apporteur d\'affaires</b>', 'user', 'Devenez apporteur'],
+  [8.9, 11.45, '1', 'Envoyez <b>son nom et son numéro</b>', 'phone', 'Un simple contact suffit'],
+  [11.45, 13.1, '2', 'On l\'appelle <b>de votre part</b>', 'phone', 'Un simple contact suffit'],
+  [13.1, 17.6, '3', 'On négocie <b>son contrat d\'énergie</b>', 'free', 'Gratuit pour le pro'],
+  [17.6, 20.35, 'ok', '<b>Gratuit</b> et sans engagement', 'free', 'Gratuit pour le pro'],
+  [20.35, 23.65, 'euro', 'Il signe = <b>commission pour vous</b>', 'euro', 'Rémunéré à la signature'],
+  [23.65, VIDEO_END, 'web', '<b>energy-market.fr</b>', 'web', 'energy-market.fr'],
 ];
-const COMMISSION_AT = 17.55;       // mot « commission »
+const COMMISSION_AT = 22.5;        // mot « commission »
+
+/* Sous-titres : [fin du groupe, [mot, instant], …] — « * » = mot clé en doré */
+const CAPTIONS = [
+  [1.6, ['Vous', 0], ['connaissez', .42], ['un', .76], ['*commerçant,', .88]],
+  [4.28, ['un', 1.84], ['*restaurateur', 1.96], ['ou', 2.56], ['un', 3.2], ['*artisan ?', 3.32]],
+  [5.7, ['Devenez', 4.28], ['*apporteur', 4.76], ["*d'affaires", 5.3]],
+  [7.35, ['avec', 5.7], ['*Energy', 6.1], ['*Market !', 6.58]],
+  [8.9, ['Le', 7.48], ['principe', 7.7], ['est', 7.94], ['simple :', 8.18]],
+  [10.04, ['envoyez-nous', 9.02], ['son', 9.56], ['*nom', 9.82]],
+  [11.4, ['et', 10.04], ['son', 10.56], ['*numéro.', 10.72]],
+  [13.1, ['On', 11.48], ["l'appelle", 11.6], ['*de', 11.88], ['*votre', 12.14], ['*part,', 12.3]],
+  [15.0, ['on', 13.16], ['analyse', 13.26], ['sa', 13.72], ['*facture', 14.2], ["*d'énergie", 14.58]],
+  [16.38, ['et', 15.0], ['on', 15.5], ['lui', 15.62], ['*négocie', 15.82]],
+  [17.6, ['un', 16.38], ['*meilleur', 16.62], ['*prix.', 16.86]],
+  [19.16, ["C'est", 17.72], ['*gratuit', 17.98], ['et', 18.34], ['sans', 18.9]],
+  [20.4, ['*engagement', 19.16], ['pour', 19.52], ['lui.', 19.8]],
+  [21.6, ["S'il", 20.44], ['*signe…', 20.82]],
+  [23.65, ['vous', 21.66], ['touchez', 21.94], ['une', 22.34], ['*commission !', 22.5]],
+  [24.68, ['Rendez-vous', 23.8], ['sur', 24.3]],
+  [VIDEO_END - .1, ['*energy-market.fr', 24.68]],
+];
 
 const ICON = {
   user: '<svg viewBox="0 0 46 46"><circle cx="23" cy="16" r="8" fill="none" stroke="#13204d" stroke-width="4"/><path d="M8 40 c1-10 7-13 15-13 s14 3 15 13" fill="none" stroke="#13204d" stroke-width="4" stroke-linecap="round"/><path d="M34 6 v10 M29 11 h10" stroke="#13204d" stroke-width="4" stroke-linecap="round"/></svg>',
@@ -178,6 +211,18 @@ const ICON = {
   q: '<span>?</span>',
   ok: '<svg viewBox="0 0 46 46"><path d="M10 24 l9 9 17 -20" stroke="#13204d" stroke-width="6" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>',
 };
+
+/* Sous-titres */
+const caps = CAPTIONS.map(([end, ...ws], gi) => {
+  const d = document.createElement('div'); d.className = 'cap';
+  const words = ws.map(([w, at]) => {
+    const sp = document.createElement('span'); sp.className = 'cw' + (w[0] === '*' ? ' key' : '');
+    sp.textContent = w.replace('*', ''); d.appendChild(sp); d.appendChild(document.createTextNode(' '));
+    return { el: sp, at };
+  });
+  $('caps').appendChild(d);
+  return { el: d, a: ws[0][1] - .08, b: Math.min(end, CAPTIONS[gi + 1] ? CAPTIONS[gi + 1][1][1] - .08 : end), words };  // jamais deux groupes à l'écran
+});
 
 /* Étiquettes d'étape */
 const tags = PHASES.map(([a, b, n, txt]) => {
@@ -224,6 +269,20 @@ function render(t) {
     const kin = ease.back(prog(t, g.a, g.a + .45)), kout = ease.in(prog(t, g.b - .25, g.b));
     g.el.style.opacity = Math.min(clamp(prog(t, g.a, g.a + .2)), 1 - kout);
     g.el.style.transform = `translate(-50%, ${lerp(-30, 0, kin) - kout * 20}px) scale(${lerp(.6, 1, kin) * (1 - kout * .1)})`;
+  }
+
+  /* Sous-titres */
+  for (const c of caps) {
+    const on = t >= c.a && t < c.b;
+    c.el.style.opacity = on ? 1 : 0;
+    if (!on) continue;
+    const k = ease.back(prog(t, c.a, c.a + .22));
+    c.el.style.transform = `translateX(-50%) scale(${lerp(.82, 1, k)})`;
+    for (const w of c.words) {
+      const cur = t >= w.at && !c.words.some(o => o.at > w.at && t >= o.at);
+      w.el.classList.toggle('cur', cur);
+      w.el.style.transform = `scale(${cur ? 1 + .06 * Math.sin(Math.PI * prog(t, w.at, w.at + .2)) : 1})`;
+    }
   }
 
   /* Pastille */
