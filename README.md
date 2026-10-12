@@ -46,3 +46,17 @@ personnage illustré, **Thomas**, qui parle face caméra (bouche synchronisée s
 | 15,7 – 18,6 s | « On négocie son contrat d'énergie, gratuitement pour lui. » | Carte contrat + « 0 € pour lui » |
 | 19,0 – 20,8 s | « Et s'il signe… on vous rémunère ! » | Tampon « Contrat signé », billets, pluie de pièces |
 | 21,2 – 26 s | « Rendez-vous sur energy-market.fr ! » | Pouce levé + URL |
+
+---
+
+# Habillage Energy Market d'une vidéo HeyGen (9:16)
+
+`energy-market-heygen-9x16.mp4` : la vidéo avatar HeyGen recadrée dans le cadre marine/or du visuel témoignage,
+avec logo, étiquettes d'étapes calées sur la voix, barre du bas + pastille dorée, pluie de pièces sur « commission »,
+musique de fond (ducking) et écran de fin (3 étapes + energy-market.fr), 24,2 s, −14 LUFS.
+
+- `heygen/overlay.html` : calque transparent (timings des étapes dans `PHASES`).
+- `heygen/make_audio.py` : voix d'origine + musique + bruitages.
+- `heygen/compose.sh` : rendu du calque puis incrustation ffmpeg. Déposer la vidéo HeyGen dans `heygen/source.mp4`
+  (non versionnée) puis `bash heygen/compose.sh`. Si le texte change, recaler `PHASES` (overlay.html) et
+  `PHASES`/`COMMISSION_AT` (make_audio.py) — `ffmpeg -i heygen/source.mp4 -af silencedetect=noise=-35dB:d=0.18 -f null -`.

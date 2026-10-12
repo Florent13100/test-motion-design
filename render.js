@@ -2,6 +2,7 @@
 // Usage : node render.js [--fps 30] [--out energy-market-9x16.mp4] [--frames dir]
 //         node render.js --page apporteur/video.html --audio apporteur/audio/soundtrack.wav --out energy-market-apporteur-9x16.mp4
 //         node render.js --stills 1,5,9   (captures PNG de contrôle uniquement)
+//         node render.js --page heygen/overlay.html --transparent --frames dir   (calque PNG transparent, sans encodage)
 const path = require('path');
 const fs = require('fs');
 const { execFileSync } = require('child_process');
@@ -15,6 +16,7 @@ const FPS = +arg('fps', 30);
 const OUT = path.resolve(arg('out', 'energy-market-9x16.mp4'));
 const FRAMES = path.resolve(arg('frames', fs.mkdtempSync(path.join(require('os').tmpdir(), 'frames-'))));
 const STILLS = arg('stills');
+const TRANSPARENT = process.argv.includes('--transparent');
 const PAGE = path.resolve(arg('page', path.join(__dirname, 'video.html')));
 const SOUND = path.resolve(arg('audio', path.join(__dirname, 'audio', 'soundtrack.wav')));
 
@@ -36,11 +38,11 @@ function ffmpegPath() {
   for (let i = 0; i < times.length; i++) {
     await page.evaluate(t => window.render(t), times[i]);
     const file = STILLS ? `still_${times[i]}.png` : `f_${String(i).padStart(5, '0')}.png`;
-    await page.screenshot({ path: path.join(FRAMES, file) });
+    await page.screenshot({ path: path.join(FRAMES, file), omitBackground: TRANSPARENT });
     if (!STILLS && i % FPS === 0) process.stdout.write(`\r${(i / FPS).toFixed(0)}s / ${duration}s`);
   }
   await browser.close();
-  if (STILLS) { console.log('stills ->', FRAMES); return; }
+  if (STILLS || TRANSPARENT) { console.log('\nframes ->', FRAMES); return; }
 
   console.log('\nEncodage…');
   execFileSync(ffmpegPath(), [
