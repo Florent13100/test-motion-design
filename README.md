@@ -62,3 +62,12 @@ barre du bas + pastille dorée, pluie de pièces sur « commission », musique d
   (non versionnée) puis `bash heygen/compose.sh`. Si le texte change, recaler `PHASES` (overlay.html) et
   `PHASES`/`COMMISSION_AT` (make_audio.py), et les sous-titres `CAPTIONS` (overlay.html) ; calage mot à mot obtenu avec
   faster-whisper (`word_timestamps=True`).
+
+---
+
+# Habillage HeyGen « Réduisez vos factures » (9:16)
+
+`energy-market-factures-9x16.mp4` : même habillage que la vidéo apporteurs (sans « AGENCE VIRTUELLE », logo agrandi),
+étapes / sous-titres / écran de fin adaptés au message (analyse gratuite, 0 € d'honoraires, diagnostic en 24 h), 27,1 s.
+Dossier `heygen-factures/` (même fonctionnement que `heygen/`) : déposer la vidéo dans `heygen-factures/source.mp4`
+puis `bash heygen-factures/compose.sh`.
