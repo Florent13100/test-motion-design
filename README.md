@@ -87,3 +87,11 @@ compteur animé du prix spot (≈100 puis ≈200 €/MWh), étiquettes des 3 cau
 `energy-market-contrat-9x16.mp4` (52,6 s) : même habillage, étiquettes des 2 erreurs à éviter et de la bonne méthode
 en 3 étapes, sous-titres mot à mot, écran de fin « Contrat à renouveler ? ». Cadrage resserré (avatar debout, petit
 dans l'image source). Dossier `heygen-contrat/` : vidéo dans `heygen-contrat/source.mp4` puis `bash heygen-contrat/compose.sh`.
+
+---
+
+# Habillage HeyGen « Gagnez des commissions en recommandant des pros » (9:16)
+
+`energy-market-commissions-9x16.mp4` (41,8 s) : même habillage, cartes animées des 3 commissions réellement versées
+(404,97 €, 848,73 €, 2 158,92 €, reprises de la vidéo « apporteur 30s ») avec mention légale, étapes du principe,
+pluie de pièces sur « commission », écran de fin apporteurs. Dossier `heygen-commissions/`.
