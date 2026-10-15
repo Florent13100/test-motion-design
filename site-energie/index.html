@@ -7,9 +7,10 @@
 <meta name="claude:viewport-fit-sides" content="cover">
 <meta name="description" content="JungleWatt accompagne les entreprises dans l'achat d'électricité et de gaz, l'audit de factures et le pilotage de leur budget énergie.">
 <meta property="og:title" content="Vos factures. Notre expertise. Vos économies.">
+<link rel="icon" type="image/png" href="favicon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@1&family=Inter:wght@400;500;600&family=Space+Grotesk:wght@400;500;600;700&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@1&family=Inter:wght@400;500;600&family=Outfit:wght@600&family=Space+Grotesk:wght@400;500;600;700&display=swap">
 <style>
 /* Mise en page : même ossature que JungleCall (sections pleine largeur, conteneur 1200px, grille 12 col.),
    l'accent citron vert devient un ambre « watt » pour distinguer l'activité énergie. */
@@ -76,9 +77,8 @@ p { margin: 0; }
 /* En-tête */
 header.top { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 50; background: color-mix(in oklch, var(--paper) 82%, transparent); backdrop-filter: blur(12px); border-bottom: 1px solid var(--line); }
 .top .wrap { display: flex; align-items: center; justify-content: space-between; gap: 1rem; height: 72px; }
-.logo { display: inline-flex; align-items: center; gap: .5rem; font-family: var(--f-display); font-weight: 700; font-size: 1.3rem; letter-spacing: -.03em; text-decoration: none; }
-.logo svg { width: 30px; height: 30px; }
-.logo em { font-family: var(--f-serif); font-weight: 400; color: var(--volt-ink); }
+.logo { display: inline-flex; align-items: center; gap: .45rem; font-family: "Outfit", var(--f-display); font-weight: 600; font-size: 1.45rem; letter-spacing: -.02em; text-decoration: none; color: var(--ink); }
+.logo img { width: auto; height: 34px; }
 nav.main { display: flex; gap: 2rem; }
 nav.main a { font-size: .9rem; color: var(--sage); text-decoration: none; }
 nav.main a:hover { color: var(--ink); }
@@ -242,8 +242,7 @@ footer { padding-block: 4rem 2.5rem; border-top: 1px solid var(--line); margin-t
 <header class="top">
   <div class="wrap">
     <a class="logo" href="#accueil" aria-label="JungleWatt, accueil">
-      <svg viewBox="0 0 32 32" aria-hidden="true"><circle cx="16" cy="16" r="15" fill="var(--volt)"/><path d="M17.5 5 9 18h6l-1.5 9L23 13.5h-6.2z" fill="var(--on-volt)"/></svg>
-      Jungle<em>Watt</em>
+      <img src="logo-j.png" alt="" width="199" height="256">JungleWatt
     </a>
     <nav class="main" id="nav" aria-label="Navigation principale">
       <a href="#accueil">Accueil</a>
@@ -293,7 +292,7 @@ footer { padding-block: 4rem 2.5rem; border-top: 1px solid var(--line); margin-t
     <div class="wrap split">
       <div class="reveal">
         <p class="eyebrow">Notre approche</p>
-        <h2 class="display-l" style="margin-top:1.25rem">Nous ne changeons pas simplement de fournisseur. Nous construisons votre <span class="serif">stratégie énergétique.</span></h2>
+        <h2 class="display-l" style="margin-top:1.25rem">Nous ne faisons pas seulement une étude&nbsp;! Nous construisons votre <span class="serif">stratégie énergétique.</span></h2>
       </div>
       <ol class="steps3 reveal">
         <li><span class="num">01</span><div><b>Analyser</b><p class="muted">Lecture ligne par ligne de vos factures, contrats et consommations.</p></div></li>
@@ -360,7 +359,7 @@ footer { padding-block: 4rem 2.5rem; border-top: 1px solid var(--line); margin-t
         <h2 class="display-l">Les économies ne sont pas un hasard. C'est une <span class="serif">méthode.</span></h2>
       </div>
       <div class="method reveal">
-        <div><span class="num">01</span><b>Collecter</b><p>Vos 12 dernières factures, vos contrats et vos courbes de charge.</p></div>
+        <div><span class="num">01</span><b>Collecter</b><p>Votre dernière facture, vos contrats et vos courbes de charge.</p></div>
         <div><span class="num">02</span><b>Analyser</b><p>Profil de consommation, puissance, options et anomalies de facturation.</p></div>
         <div><span class="num">03</span><b>Consulter</b><p>Appel d'offres auprès d'un large panel de fournisseurs.</p></div>
         <div><span class="num">04</span><b>Négocier</b><p>Vous comparez des offres lisibles et vous décidez.</p></div>
@@ -482,7 +481,7 @@ footer { padding-block: 4rem 2.5rem; border-top: 1px solid var(--line); margin-t
   <div class="wrap">
     <div class="foot">
       <div>
-        <a class="logo" href="#accueil"><svg viewBox="0 0 32 32" aria-hidden="true"><circle cx="16" cy="16" r="15" fill="var(--volt)"/><path d="M17.5 5 9 18h6l-1.5 9L23 13.5h-6.2z" fill="var(--on-volt)"/></svg>Jungle<em>Watt</em></a>
+        <a class="logo" href="#accueil"><img src="logo-j.png" alt="" width="199" height="256">JungleWatt</a>
         <p class="muted" style="margin-top:1rem;max-width:30em">Vos factures. Notre expertise. Vos économies. Courtage en électricité et gaz, audit de factures et pilotage énergétique pour les entreprises.</p>
       </div>
       <div>
