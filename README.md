@@ -79,3 +79,11 @@ puis `bash heygen-factures/compose.sh`.
 `energy-market-marche-9x16.mp4` : décryptage marché (58 s) avec le même habillage que « Réduisez vos factures »,
 compteur animé du prix spot (≈100 puis ≈200 €/MWh), étiquettes des 3 causes (gaz, stocks, vent), solutions et
 écran de fin. Dossier `heygen-marche/` : déposer la vidéo dans `heygen-marche/source.mp4` puis `bash heygen-marche/compose.sh`.
+
+---
+
+# Habillage HeyGen « Évitez de surpayer votre prochain contrat » (9:16)
+
+`energy-market-contrat-9x16.mp4` (52,6 s) : même habillage, étiquettes des 2 erreurs à éviter et de la bonne méthode
+en 3 étapes, sous-titres mot à mot, écran de fin « Contrat à renouveler ? ». Cadrage resserré (avatar debout, petit
+dans l'image source). Dossier `heygen-contrat/` : vidéo dans `heygen-contrat/source.mp4` puis `bash heygen-contrat/compose.sh`.
