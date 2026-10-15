@@ -1,0 +1,387 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<title>Energy Market — habillage « Décryptage marché »</title>
+<style>
+  @font-face {
+    font-family: 'Plus Jakarta Sans';
+    src: url('../assets/PlusJakartaSans.woff2') format('woff2');
+    font-weight: 200 800;
+  }
+  :root {
+    --cream: #f7f2e9;
+    --navy: #1b2c66;
+    --navy-deep: #13204d;
+    --gold: #c9a24f;
+    --gold-2: #e3c67f;
+    --gold-light: #f4e7c4;
+    --ink: #142152;
+    --green: #2f9e5e;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  /* Fond transparent : la vidéo HeyGen est incrustée dessous par compose.sh */
+  html, body { width: 1080px; height: 1920px; overflow: hidden; background: transparent; }
+  body { font-family: 'Plus Jakarta Sans', sans-serif; color: var(--ink); -webkit-font-smoothing: antialiased; }
+  body.preview { background: #888 url('preview.jpg') 30px 316px / 1020px 1568px no-repeat; }
+  #stage { position: relative; width: 1080px; height: 1920px; overflow: hidden; }
+
+  /* Fenêtre vidéo : 1020×1568 en (30, 316) — doit suivre compose.sh */
+  #win { position: absolute; left: 30px; top: 316px; width: 1020px; height: 1568px; border-radius: 14px;
+    box-shadow: 0 0 0 1600px var(--cream); }
+  #shade { position: absolute; left: 30px; top: 316px; width: 1020px; height: 1568px; border-radius: 14px;
+    background: linear-gradient(180deg, rgba(19,32,77,.28) 0%, rgba(19,32,77,0) 14%, rgba(19,32,77,0) 80%, rgba(19,32,77,.45) 100%); }
+  #frame { position: absolute; left: 14px; top: 300px; width: 1052px; height: 1600px; border-radius: 26px;
+    border: 16px solid var(--navy); box-shadow: 0 30px 70px rgba(20,33,82,.25); }
+  #frame::after { content: ''; position: absolute; inset: -7px; border: 3px solid var(--gold); border-radius: 20px; }
+  .corner { position: absolute; width: 70px; height: 70px; border: 7px solid var(--gold-2); }
+  .corner.tl { left: 16px; top: 302px; border-right: 0; border-bottom: 0; border-top-left-radius: 24px; }
+  .corner.tr { right: 16px; top: 302px; border-left: 0; border-bottom: 0; border-top-right-radius: 24px; }
+  .corner.bl { left: 16px; top: 1828px; border-right: 0; border-top: 0; border-bottom-left-radius: 24px; }
+  .corner.br { right: 16px; top: 1828px; border-left: 0; border-top: 0; border-bottom-right-radius: 24px; }
+
+  /* En-tête */
+  #head { position: absolute; left: 0; top: 22px; width: 1080px; text-align: center; }
+  #logo { width: 440px; display: block; margin: 0 auto; }
+  #tagline { margin-top: -2px; font-size: 27px; font-weight: 600; letter-spacing: .32em; color: var(--navy); padding-left: .32em; }
+  #rule { width: 560px; height: 3px; margin: 4px auto 0; background: linear-gradient(90deg, transparent, var(--gold), transparent); }
+
+  /* Étiquette d'étape (haut de la vidéo) */
+  #tagwrap { position: absolute; left: 30px; top: 346px; width: 1020px; height: 120px; }
+  .tag { position: absolute; left: 50%; top: 0; display: inline-flex; align-items: center; gap: 18px; padding: 14px 34px 14px 16px;
+    border-radius: 999px; background: var(--navy); color: #fff; font-size: 38px; font-weight: 800; letter-spacing: -.005em;
+    border: 3px solid var(--gold); box-shadow: 0 16px 40px rgba(13,20,50,.4); white-space: nowrap; opacity: 0; }
+  .tag .n { flex: 0 0 64px; height: 64px; border-radius: 50%; background: linear-gradient(135deg, #f1d58c, #c9a24f 60%, #b48a39);
+    color: var(--navy-deep); display: flex; align-items: center; justify-content: center; font-size: 32px; font-weight: 800; }
+  .tag .n svg { width: 36px; height: 36px; }
+  .tag b { color: var(--gold-2); font-weight: 800; }
+
+  /* Sous-titres */
+  #caps { position: absolute; left: 30px; top: 1520px; width: 1020px; height: 200px; }
+  .cap { position: absolute; left: 50%; bottom: 0; width: 960px; text-align: center; opacity: 0; transform-origin: 50% 100%;
+    font-size: 64px; font-weight: 800; line-height: 1.12; letter-spacing: -.015em; color: #fff;
+    -webkit-text-stroke: 3px var(--navy-deep); paint-order: stroke fill;
+    text-shadow: 0 4px 0 var(--navy-deep), 0 8px 24px rgba(10,16,40,.55); }
+  .cw { display: inline-block; margin: 0 .07em; transform-origin: 50% 80%; }
+  .cw.key { color: var(--gold-2); }
+  .cw.cur { color: #f1d58c; }
+  .cw.key.cur { color: #fff3cf; }
+
+  /* Barre du bas */
+  #bar { position: absolute; left: 62px; top: 1740px; width: 956px; height: 130px; border-radius: 30px; background: var(--navy);
+    display: flex; align-items: center; padding: 0 12px 0 20px; gap: 18px; box-shadow: 0 20px 50px rgba(13,20,50,.4);
+    border: 3px solid rgba(201,162,79,.6); }
+  #avatar { flex: 0 0 84px; height: 84px; border-radius: 50%; border: 4px solid var(--gold); display: flex; align-items: center; justify-content: center; background: #24387a; }
+  #who { color: #fff; font-size: 30px; font-weight: 800; line-height: 1.25; white-space: nowrap; }
+  #who small { display: block; font-size: 23px; font-weight: 600; color: rgba(255,255,255,.75); }
+  #pill { margin-left: auto; flex: 0 0 440px; position: relative; height: 100px; border-radius: 22px; overflow: hidden;
+    background: linear-gradient(135deg, #f1d58c 0%, #c9a24f 55%, #b48a39 100%); box-shadow: inset 0 2px 0 rgba(255,255,255,.5); }
+  #shine { position: absolute; inset: 0; }
+  .pt { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; gap: 14px; padding: 0 16px;
+    font-size: 32px; font-weight: 800; color: var(--navy-deep); white-space: nowrap; letter-spacing: -.01em; }
+  .pt svg { flex: 0 0 auto; width: 42px; height: 42px; }
+  .pt span { flex-shrink: 0; }
+
+  /* Compteur prix spot */
+  #spot { position: absolute; right: 56px; top: 470px; width: 300px; padding: 20px 24px 18px; border-radius: 26px; background: rgba(19,32,77,.92);
+    border: 3px solid var(--gold); box-shadow: 0 18px 44px rgba(10,16,40,.45); color: #fff; text-align: center; opacity: 0; }
+  #spot small { display: block; font-size: 21px; font-weight: 800; letter-spacing: .12em; color: var(--gold-2); }
+  #spot .v { display: flex; align-items: center; justify-content: center; gap: 10px; font-size: 92px; font-weight: 800; letter-spacing: -.04em; line-height: 1.05; }
+  #spot .u { display: block; font-size: 22px; font-weight: 600; color: rgba(255,255,255,.75); }
+
+  /* Pièces */
+  .coin { position: absolute; left: 0; top: 0; width: 64px; height: 64px; margin: -32px 0 0 -32px; border-radius: 50%;
+    background: radial-gradient(circle at 35% 30%, #fff1c2, #e3c67f 50%, #b48a39); border: 3px solid #b48a39;
+    display: flex; align-items: center; justify-content: center; font-size: 34px; font-weight: 800; color: #7a5a22; opacity: 0; }
+
+  /* Écran de fin */
+  #wipe { position: absolute; left: -200px; width: 1480px; height: 2400px; top: 0; background: var(--gold); transform: translateY(2000px) skewY(-8deg); }
+  #end { position: absolute; inset: 0; background: radial-gradient(90% 60% at 50% 30%, #fffdf8 0%, var(--cream) 55%, #efe6d6 100%);
+    transform: translateY(2000px); text-align: center; }
+  #end .in { position: absolute; left: 0; width: 1080px; }
+  #e-logo { width: 560px; display: block; margin: 0 auto; }
+  .e-h { font-size: 84px; font-weight: 800; line-height: 1.05; letter-spacing: -.03em; color: var(--navy); }
+  .e-g { color: #a9822f; }
+  .steps { display: flex; justify-content: center; gap: 26px; }
+  .st { width: 290px; padding: 30px 18px 26px; border-radius: 28px; background: #fff; box-shadow: 0 18px 40px rgba(20,33,82,.16);
+    border: 2px solid rgba(201,162,79,.5); }
+  .st .ic { width: 96px; height: 96px; margin: 0 auto 16px; border-radius: 50%; background: var(--navy); display: flex; align-items: center; justify-content: center; }
+  .st .ic svg { width: 54px; height: 54px; }
+  .st b { display: block; font-size: 32px; font-weight: 800; color: var(--navy); line-height: 1.15; }
+  .st span { display: block; margin-top: 8px; font-size: 24px; font-weight: 600; color: #6b7393; line-height: 1.25; }
+  .cta { display: inline-flex; align-items: center; gap: 20px; background: var(--navy); color: #fff; border-radius: 30px;
+    padding: 34px 60px; font-size: 60px; font-weight: 800; letter-spacing: -.01em; box-shadow: 0 26px 60px rgba(20,33,82,.35); border: 4px solid var(--gold); }
+  .note { display: inline-block; padding: 14px 30px; border-radius: 999px; background: rgba(201,162,79,.16); border: 2px solid rgba(201,162,79,.7);
+    font-size: 30px; font-weight: 700; color: #7a5a22; }
+</style>
+</head>
+<body>
+<div id="stage">
+  <div id="win"></div>
+  <div id="shade"></div>
+  <div id="frame"></div>
+  <div class="corner tl"></div><div class="corner tr"></div><div class="corner bl"></div><div class="corner br"></div>
+
+  <div id="head">
+    <img id="logo" src="../assets/logo.png" alt="Energy Market">
+    <div id="rule"></div>
+  </div>
+
+  <div id="tagwrap"></div>
+  <div id="caps"></div>
+  <div id="spot"><small>SPOT ÉLECTRICITÉ</small><div class="v"><span id="spot-n">0</span><svg viewBox="0 0 40 40" width="46" height="46"><path d="M20 4 L36 24 H26 V36 H14 V24 H4 Z" fill="#e5484d"/></svg></div><span class="u">€ / MWh · France</span></div>
+
+  <div id="bar">
+    <div id="avatar"><svg viewBox="0 0 96 96" width="80" height="80">
+      <circle cx="48" cy="38" r="17" fill="none" stroke="#e3c67f" stroke-width="5"/>
+      <path d="M18 84 C20 64 32 58 48 58 C64 58 76 64 78 84" fill="none" stroke="#e3c67f" stroke-width="5" stroke-linecap="round"/></svg></div>
+    <div id="who">Energy Market<small>Courtier en énergie · TPE &amp; PME</small></div>
+    <div id="pill"><div id="shine"></div></div>
+  </div>
+  <div id="coins"></div>
+
+  <div id="wipe"></div>
+  <div id="end">
+    <div class="in" id="e1" style="top:150px"><img id="e-logo" src="../assets/logo.png" alt=""></div>
+    <div class="in e-h" id="e2" style="top:520px">Prix de l'énergie en hausse&nbsp;?</div>
+    <div class="in e-h e-g" id="e3" style="top:620px">Faites analyser votre contrat</div>
+    <div class="in" id="e4" style="top:880px"><div class="steps">
+      <div class="st"><div class="ic"><svg viewBox="0 0 54 54"><path d="M14 5 h18 l10 10 v34 h-28 z" fill="none" stroke="#e3c67f" stroke-width="4.5" stroke-linejoin="round"/><path d="M20 26 h16 M20 34 h16 M20 42 h10" stroke="#fff" stroke-width="4" stroke-linecap="round"/></svg></div>
+        <b>1. Votre facture</b><span>Envoyez la dernière reçue</span></div>
+      <div class="st"><div class="ic"><svg viewBox="0 0 54 54"><circle cx="27" cy="27" r="20" fill="none" stroke="#e3c67f" stroke-width="5"/><path d="M18 28 l6 6 12 -14" stroke="#fff" stroke-width="5" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <b>2. On analyse</b><span>Gratuitement, votre contrat</span></div>
+      <div class="st"><div class="ic"><svg viewBox="0 0 54 54"><rect x="5" y="13" width="44" height="28" rx="6" fill="none" stroke="#e3c67f" stroke-width="5"/><text x="27" y="35" text-anchor="middle" font-size="21" font-weight="800" fill="#fff" font-family="Plus Jakarta Sans">€</text></svg></div>
+        <b>3. On vous conseille</b><span>Le bon moment pour fixer votre prix</span></div>
+    </div></div>
+    <div class="in" id="e5" style="top:1300px"><span class="cta">energy-market.fr <span style="color:var(--gold-2)">→</span></span></div>
+    <div class="in" id="e6" style="top:1510px"><span class="note">ou envoyez votre facture en message privé</span></div>
+  </div>
+</div>
+
+<script>
+const $ = id => document.getElementById(id);
+const clamp = (x, a = 0, b = 1) => Math.min(b, Math.max(a, x));
+const prog = (t, a, b) => clamp((t - a) / (b - a));
+const lerp = (a, b, k) => a + (b - a) * k;
+const ease = {
+  out: x => 1 - Math.pow(1 - x, 3),
+  outQuint: x => 1 - Math.pow(1 - x, 5),
+  in: x => x * x * x,
+  inOut: x => x < .5 ? 4 * x * x * x : 1 - Math.pow(-2 * x + 2, 3) / 2,
+  back: x => { const c1 = 1.70158, c3 = c1 + 1; return 1 + c3 * Math.pow(x - 1, 3) + c1 * Math.pow(x - 1, 2); },
+};
+
+/* Calage sur la voix de la vidéo HeyGen (transcription mot à mot faster-whisper) */
+const VIDEO_END = 55.28;           // fin de la vidéo source
+const DURATION = 58.4;             // + écran de fin
+const PHASES = [
+  // [début, fin, icône/numéro, texte de l'étiquette, icône pastille, texte pastille]
+  [0.2, 8.0, 'bolt', 'Électricité : le spot <b>s\'envole</b>', 'bolt', 'Marché spot en hausse'],
+  [8.0, 11.1, 'q', 'Que se passe-t-il&nbsp;?', 'search', 'Le décryptage'],
+  [11.1, 18.3, '1', '<b>Le gaz</b> au plus haut depuis 2022', 'bolt', 'Cause n°1 : le gaz'],
+  [18.3, 24.7, '2', '<b>Stocks de gaz</b> sous la normale', 'bolt', 'Cause n°2 : les stocks'],
+  [24.7, 31.55, '3', '<b>Moins de vent</b>, le gaz fixe le prix', 'bolt', 'Cause n°3 : peu de vent'],
+  [31.55, 39.05, 'warn', 'Contrat indexé ou <b>à renouveler</b>&nbsp;?', 'doc', 'Votre facture peut grimper'],
+  [39.05, 45.6, 'ok', '<b>Des solutions existent</b>', 'clock', 'Fixer son prix au bon moment'],
+  [45.6, 51.15, 'search', '<b>Analyse gratuite</b> de votre contrat', 'free', 'Analyse gratuite'],
+  [51.15, VIDEO_END, 'doc', 'Envoyez <b>votre dernière facture</b>', 'web', 'energy-market.fr'],
+];
+const COMMISSION_AT = -99;         // pas de pluie de pièces sur cette vidéo
+const SPOT = { in: 2.2, at100: 2.46, at200: 6.38, out: 8.0 };   // « 100 € » puis « 200 € »
+
+/* Sous-titres : [fin du groupe, [mot, instant], …] — « * » = mot clé en doré */
+const CAPTIONS = [
+  [1.38, ["Le", 0.0], ["prix", 0.44], ["de", 0.62], ["*l'électricité", 0.74]],
+  [3.04, ["vient", 1.38], ["de", 1.6], ["dépasser", 1.76], ["les", 2.34], ["*100\u00a0€", 2.46]],
+  [3.76, ["le", 3.04], ["mégawattheure", 3.22]],
+  [4.8, ["sur", 3.76], ["le", 4.1], ["marché", 4.22], ["*spot,", 4.46]],
+  [6.16, ["et", 4.8], ["il", 5.4], ["a", 5.48], ["même", 5.56], ["*frôlé", 5.7]],
+  [8.04, ["les", 6.16], ["*200\u00a0€", 6.38], ["cette", 7.02], ["semaine.", 7.2]],
+  [9.3, ["Alors", 8.04], ["que", 8.22], ["se", 8.52], ["passe-t-il\u00a0?", 8.64]],
+  [10.32, ["*Premièrement,", 9.3]],
+  [11.22, ["le", 10.32], ["*gaz.", 10.38]],
+  [12.38, ["Avec", 11.22], ["la", 11.34], ["*guerre", 11.58], ["au", 11.7], ["*Moyen-Orient", 11.86]],
+  [13.32, ["et", 12.38], ["les", 12.56], ["tensions", 12.68], ["sur", 12.94], ["le", 13.22]],
+  [14.5, ["détroit", 13.32], ["*d'Ormuz,", 13.58]],
+  [15.52, ["le", 14.5], ["prix", 14.56], ["du", 14.74], ["*gaz", 14.88], ["européen", 15.04]],
+  [16.82, ["est", 15.52], ["au", 15.8], ["plus", 15.92], ["haut", 16.14], ["depuis", 16.44]],
+  [18.36, ["fin", 16.82], ["*2022.", 17.18]],
+  [19.2, ["*Deuxièmement,", 18.36]],
+  [20.04, ["les", 19.2], ["*stocks", 19.32], ["de", 19.54], ["*gaz", 19.7], ["en", 19.88]],
+  [21.36, ["Europe", 20.04], ["sont", 20.28], ["nettement", 20.54], ["en", 21.1]],
+  [22.18, ["dessous", 21.36], ["de", 21.66], ["la", 21.78], ["*normale", 21.88]],
+  [23.14, ["avant", 22.18], ["l'hiver.", 22.42]],
+  [24.78, ["Les", 23.14], ["marchés", 23.32], ["ont", 23.6], ["peur", 23.7], ["de", 23.9], ["*manquer.", 24.02]],
+  [26.06, ["Et", 24.78], ["*troisièmement,", 25.0]],
+  [27.24, ["moins", 26.06], ["de", 26.36], ["*vent,", 26.54]],
+  [28.42, ["donc", 27.24], ["moins", 27.24], ["*d'éolien,", 27.52]],
+  [29.24, ["et", 28.42], ["ce", 28.52], ["sont", 28.6], ["les", 28.72], ["*centrales", 28.82]],
+  [30.14, ["au", 29.24], ["*gaz", 29.32], ["qui", 29.5], ["fixent", 29.74], ["le", 30.06]],
+  [31.64, ["prix", 30.14], ["de", 30.32], ["*l'électricité.", 30.44]],
+  [32.48, ["Résultat,", 31.64]],
+  [33.72, ["si", 32.48], ["votre", 32.58], ["*contrat", 32.74], ["est", 33.14], ["*indexé", 33.3]],
+  [34.72, ["sur", 33.72], ["le", 33.86], ["marché,", 33.96]],
+  [35.64, ["ou", 34.72], ["s'il", 34.76], ["arrive", 34.98], ["à", 35.2], ["*échéance", 35.3]],
+  [36.54, ["bientôt,", 35.64]],
+  [37.64, ["votre", 36.54], ["prochaine", 36.72], ["*facture", 37.08], ["peut", 37.46]],
+  [39.16, ["*grimper", 37.64], ["*fortement.", 37.94]],
+  [40.18, ["La", 39.16], ["bonne", 39.34], ["nouvelle,", 39.48]],
+  [41.64, ["il", 40.18], ["y", 40.32], ["a", 40.44], ["des", 40.48], ["*solutions.", 40.6]],
+  [42.68, ["Bien", 41.64], ["choisir", 41.78], ["le", 42.16], ["*moment", 42.26], ["pour", 42.48]],
+  [43.82, ["*fixer", 42.68], ["son", 43.0], ["prix,", 43.12]],
+  [44.58, ["et", 43.82], ["ne", 43.88], ["pas", 43.98], ["*renouveler", 44.16]],
+  [45.68, ["n'importe", 44.58], ["comment.", 44.8]],
+  [46.98, ["Chez", 45.68], ["*Energy", 45.94], ["*Market,", 46.18]],
+  [48.1, ["on", 46.98], ["analyse", 47.14], ["*gratuitement", 47.5]],
+  [48.68, ["votre", 48.1], ["*contrat", 48.26]],
+  [50.38, ["et", 48.68], ["on", 49.16], ["vous", 49.24], ["dit", 49.38], ["quoi", 49.52], ["faire,", 49.8]],
+  [51.24, ["*maintenant.", 50.38]],
+  [52.36, ["Envoyez-nous", 51.24], ["votre", 51.78], ["*dernière", 52.0]],
+  [VIDEO_END - .1, ["*facture", 52.36], ["sur", 52.88], ["*energy-market.fr\u00a0!", 53.14]],
+];
+
+const ICON = {
+  user: '<svg viewBox="0 0 46 46"><circle cx="23" cy="16" r="8" fill="none" stroke="#13204d" stroke-width="4"/><path d="M8 40 c1-10 7-13 15-13 s14 3 15 13" fill="none" stroke="#13204d" stroke-width="4" stroke-linecap="round"/><path d="M34 6 v10 M29 11 h10" stroke="#13204d" stroke-width="4" stroke-linecap="round"/></svg>',
+  shop: '<svg viewBox="0 0 46 46"><path d="M6 16 L10 6 H36 L40 16 Z" fill="#13204d"/><rect x="9" y="20" width="28" height="20" rx="2" fill="none" stroke="#13204d" stroke-width="4"/><rect x="19" y="27" width="8" height="13" fill="#13204d"/></svg>',
+  phone: '<svg viewBox="0 0 46 46"><path d="M14 5 l6 9 -4 4 c2 5 6 9 11 11 l4 -4 9 6 -3 7 c-14 1 -30 -15 -29 -29 z" fill="#13204d"/></svg>',
+  free: '<svg viewBox="0 0 46 46"><circle cx="23" cy="23" r="18" fill="none" stroke="#13204d" stroke-width="4"/><path d="M15 24 l6 6 11 -13" stroke="#13204d" stroke-width="4.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>',
+  euro: '<svg viewBox="0 0 46 46"><rect x="3" y="10" width="40" height="26" rx="5" fill="none" stroke="#13204d" stroke-width="4"/><text x="23" y="30" text-anchor="middle" font-size="19" font-weight="800" fill="#13204d" font-family="Plus Jakarta Sans">€</text></svg>',
+  web: '<svg viewBox="0 0 46 46"><circle cx="23" cy="23" r="18" fill="none" stroke="#13204d" stroke-width="4"/><ellipse cx="23" cy="23" rx="8" ry="18" fill="none" stroke="#13204d" stroke-width="3"/><path d="M5 23 h36" stroke="#13204d" stroke-width="3"/></svg>',
+  q: '<span>?</span>',
+  warn: '<svg viewBox="0 0 46 46"><path d="M23 5 L42 39 H4 Z" fill="none" stroke="#13204d" stroke-width="4.5" stroke-linejoin="round"/><path d="M23 17 v10" stroke="#13204d" stroke-width="5" stroke-linecap="round"/><circle cx="23" cy="33" r="2.8" fill="#13204d"/></svg>',
+  bolt: '<svg viewBox="0 0 46 46"><path d="M26 3 L9 26 h12 l-3 17 L37 19 H24 z" fill="#13204d"/></svg>',
+  search: '<svg viewBox="0 0 46 46"><circle cx="19" cy="19" r="12" fill="none" stroke="#13204d" stroke-width="5"/><path d="M28 28 l11 11" stroke="#13204d" stroke-width="6" stroke-linecap="round"/></svg>',
+  doc: '<svg viewBox="0 0 46 46"><path d="M11 4 h16 l9 9 v29 h-25 z" fill="none" stroke="#13204d" stroke-width="4" stroke-linejoin="round"/><path d="M16 22 h14 M16 29 h14 M16 36 h9" stroke="#13204d" stroke-width="3.5" stroke-linecap="round"/></svg>',
+  clock: '<svg viewBox="0 0 46 46"><circle cx="23" cy="23" r="18" fill="none" stroke="#13204d" stroke-width="4"/><path d="M23 12 v12 l8 5" stroke="#13204d" stroke-width="4.5" fill="none" stroke-linecap="round"/></svg>',
+  ok: '<svg viewBox="0 0 46 46"><path d="M10 24 l9 9 17 -20" stroke="#13204d" stroke-width="6" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>',
+};
+
+/* Sous-titres */
+const caps = CAPTIONS.map(([end, ...ws], gi) => {
+  const d = document.createElement('div'); d.className = 'cap';
+  const words = ws.map(([w, at]) => {
+    const sp = document.createElement('span'); sp.className = 'cw' + (w[0] === '*' ? ' key' : '');
+    sp.textContent = w.replace('*', ''); d.appendChild(sp); d.appendChild(document.createTextNode(' '));
+    return { el: sp, at };
+  });
+  $('caps').appendChild(d);
+  return { el: d, a: ws[0][1] - .08, b: Math.min(end, CAPTIONS[gi + 1] ? CAPTIONS[gi + 1][1][1] - .08 : end), words };  // jamais deux groupes à l'écran
+});
+
+/* Étiquettes d'étape */
+const tags = PHASES.map(([a, b, n, txt]) => {
+  const d = document.createElement('div'); d.className = 'tag';
+  d.innerHTML = `<div class="n">${ICON[n] || n}</div><span>${txt}</span>`;
+  $('tagwrap').appendChild(d);
+  return { el: d, a, b };
+});
+
+/* Pastille dorée : une entrée par texte différent */
+const pills = [];
+PHASES.forEach(([a, b, , , ic, txt]) => {
+  const last = pills[pills.length - 1];
+  if (last && last.txt === txt) { last.b = b; return; }
+  const d = document.createElement('div'); d.className = 'pt';
+  d.innerHTML = ICON[ic] + `<span>${txt}</span>`;
+  $('pill').appendChild(d);
+  pills.push({ el: d, a, b, txt });
+});
+pills[pills.length - 1].b = 999;
+document.fonts.ready.then(() => pills.forEach(({ el }) => {
+  const sp = el.querySelector('span'); let fs = 32;
+  while (sp.offsetWidth > 440 - 42 - 14 - 30 && fs > 20) sp.style.fontSize = (--fs) + 'px';
+}));
+
+/* Pièces qui jaillissent de la pastille sur « commission » */
+const coins = [...Array(12)].map((_, i) => {
+  const c = document.createElement('div'); c.className = 'coin'; c.textContent = '€'; $('coins').appendChild(c);
+  const ang = -Math.PI / 2 + (i / 11 - .5) * 2.0;
+  return { el: c, vx: Math.cos(ang) * (300 + (i * 61) % 180), vy: Math.sin(ang) * (900 + (i * 83) % 300), spin: (i % 2 ? 1 : -1) * (240 + i * 25) };
+});
+
+function render(t) {
+  /* Mise en place */
+  const k0 = ease.outQuint(prog(t, 0, .5));
+  $('head').style.transform = `translateY(${lerp(-40, 0, k0)}px)`;
+  $('head').style.opacity = k0;
+  $('rule').style.transform = `scaleX(${ease.out(prog(t, .15, .8))})`;
+  const kb = ease.back(prog(t, .2, .7));
+  $('bar').style.transform = `translateY(${lerp(180, 0, kb)}px)`;
+
+  /* Étiquettes */
+  for (const g of tags) {
+    const kin = ease.back(prog(t, g.a, g.a + .45)), kout = ease.in(prog(t, g.b - .25, g.b));
+    g.el.style.opacity = Math.min(clamp(prog(t, g.a, g.a + .2)), 1 - kout);
+    g.el.style.transform = `translate(-50%, ${lerp(-30, 0, kin) - kout * 20}px) scale(${lerp(.6, 1, kin) * (1 - kout * .1)})`;
+  }
+
+  /* Sous-titres */
+  for (const c of caps) {
+    const on = t >= c.a && t < c.b;
+    c.el.style.opacity = on ? 1 : 0;
+    if (!on) continue;
+    const k = ease.back(prog(t, c.a, c.a + .22));
+    c.el.style.transform = `translateX(-50%) scale(${lerp(.82, 1, k)})`;
+    for (const w of c.words) {
+      const cur = t >= w.at && !c.words.some(o => o.at > w.at && t >= o.at);
+      w.el.classList.toggle('cur', cur);
+      w.el.style.transform = `scale(${cur ? 1 + .06 * Math.sin(Math.PI * prog(t, w.at, w.at + .2)) : 1})`;
+    }
+  }
+
+  /* Pastille */
+  for (const p of pills) {
+    const kin = ease.outQuint(prog(t, p.a, p.a + .4)), kout = ease.in(prog(t, p.b - .05, p.b + .25));
+    p.el.style.opacity = Math.min(kin, 1 - kout);
+    p.el.style.transform = `translateY(${lerp(60, 0, kin) - kout * 60}px)`;
+  }
+  const sh = (t % 3.2) / 3.2 * 160;
+  $('shine').style.background = `linear-gradient(105deg, transparent ${sh - 30}%, rgba(255,255,255,.45) ${sh - 20}%, transparent ${sh - 10}%)`;
+  const bump = Math.sin(Math.PI * prog(t, COMMISSION_AT - .05, COMMISSION_AT + .4)) * .08;
+  $('pill').style.transform = `scale(${1 + bump})`;
+
+  /* Compteur du prix spot : 70 -> 100 (« 100 € ») -> ~200 (« 200 € ») */
+  const kS = ease.back(prog(t, SPOT.in, SPOT.in + .4)), qS = ease.in(prog(t, SPOT.out - .3, SPOT.out));
+  $('spot').style.opacity = Math.min(clamp(prog(t, SPOT.in, SPOT.in + .2)), 1 - qS);
+  $('spot').style.transform = `translateX(${lerp(80, 0, kS)}px) scale(${lerp(.7, 1, kS) * (1 - qS * .1)})`;
+  const v = t < SPOT.at200 - .3 ? lerp(70, 101, ease.out(prog(t, SPOT.in, SPOT.at100 + .3))) : lerp(101, 196, ease.out(prog(t, SPOT.at200 - .3, SPOT.at200 + .5)));
+  $('spot-n').textContent = Math.round(v);
+  const pulse = Math.max(Math.sin(Math.PI * prog(t, SPOT.at100, SPOT.at100 + .35)), Math.sin(Math.PI * prog(t, SPOT.at200, SPOT.at200 + .35)));
+  $('spot-n').parentNode.style.transform = `scale(${1 + pulse * .12})`;
+  $('spot-n').style.color = v > 150 ? '#ff8a8e' : '#fff';
+
+  /* Pièces */
+  coins.forEach((c, i) => {
+    const tt = t - COMMISSION_AT - i * .03;
+    if (tt < 0 || tt > 1.5) { c.el.style.opacity = 0; return; }
+    const x = 800 + c.vx * tt, y = 1800 + c.vy * tt + 1300 * tt * tt;
+    c.el.style.opacity = 1 - prog(tt, 1.0, 1.5);
+    c.el.style.transform = `translate(${x}px, ${y}px) rotate(${c.spin * tt}deg) scaleX(${Math.cos(tt * 9 + i) * .35 + .75})`;
+  });
+
+  /* Écran de fin : balayage doré puis carton crème */
+  const kw = ease.inOut(prog(t, VIDEO_END - .45, VIDEO_END + .25));
+  $('wipe').style.transform = `translateY(${lerp(2000, -2600, kw)}px) skewY(-8deg)`;
+  const ke = ease.outQuint(prog(t, VIDEO_END - .15, VIDEO_END + .35));
+  $('end').style.transform = `translateY(${lerp(2000, 0, ke)}px)`;
+  const e0 = VIDEO_END + .2;
+  [['e1', 0, .5], ['e2', .25, .8], ['e3', .4, .8], ['e4', .6, .8], ['e5', .9, .6], ['e6', 1.1, .8]].forEach(([id, d, sc]) => {
+    const k = (id === 'e5' || id === 'e1' ? ease.back : ease.outQuint)(prog(t, e0 + d, e0 + d + .5));
+    $(id).style.opacity = clamp(prog(t, e0 + d, e0 + d + .25));
+    $(id).style.transform = `translateY(${lerp(50, 0, k)}px) scale(${lerp(sc, 1, k)})`;
+  });
+  if (t > e0 + 1.5) $('e5').style.transform = `scale(${1 + Math.sin((t - e0 - 1.5) * 5) * .03})`;
+}
+
+window.DURATION = DURATION;
+window.render = render;
+const params = new URLSearchParams(location.search);
+if (params.has('preview')) document.body.classList.add('preview');
+if (params.has('t')) render(parseFloat(params.get('t')));
+else if (!params.has('capture')) {
+  const t0 = performance.now();
+  (function loop() { render(((performance.now() - t0) / 1000) % DURATION); requestAnimationFrame(loop); })();
+}
+</script>
+</body>
+</html>

@@ -71,3 +71,11 @@ barre du bas + pastille dorée, pluie de pièces sur « commission », musique d
 étapes / sous-titres / écran de fin adaptés au message (analyse gratuite, 0 € d'honoraires, diagnostic en 24 h), 27,1 s.
 Dossier `heygen-factures/` (même fonctionnement que `heygen/`) : déposer la vidéo dans `heygen-factures/source.mp4`
 puis `bash heygen-factures/compose.sh`.
+
+---
+
+# Habillage HeyGen « Pourquoi le prix de l'électricité explose » (9:16)
+
+`energy-market-marche-9x16.mp4` : décryptage marché (58 s) avec le même habillage que « Réduisez vos factures »,
+compteur animé du prix spot (≈100 puis ≈200 €/MWh), étiquettes des 3 causes (gaz, stocks, vent), solutions et
+écran de fin. Dossier `heygen-marche/` : déposer la vidéo dans `heygen-marche/source.mp4` puis `bash heygen-marche/compose.sh`.
