@@ -95,3 +95,10 @@ dans l'image source). Dossier `heygen-contrat/` : vidéo dans `heygen-contrat/so
 `energy-market-commissions-9x16.mp4` (41,8 s) : même habillage, cartes animées des 3 commissions réellement versées
 (404,97 €, 848,73 €, 2 158,92 €, reprises de la vidéo « apporteur 30s ») avec mention légale, étapes du principe,
 pluie de pièces sur « commission », écran de fin apporteurs. Dossier `heygen-commissions/`.
+
+---
+
+# Habillage HeyGen « Devenez commercial chez Energy Market » (9:16)
+
+`energy-market-recrutement-9x16.mp4` (37,1 s) : même habillage, étiquettes « ce qu'on vous apporte » (formation,
+outils, équipe) et « ce qu'on attend de vous », sous-titres mot à mot, écran de fin recrutement. Dossier `heygen-recrutement/`.
