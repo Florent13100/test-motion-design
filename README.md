@@ -102,3 +102,11 @@ pluie de pièces sur « commission », écran de fin apporteurs. Dossier `heygen
 
 `energy-market-recrutement-9x16.mp4` (37,1 s) : même habillage, étiquettes « ce qu'on vous apporte » (formation,
 outils, équipe) et « ce qu'on attend de vous », sous-titres mot à mot, écran de fin recrutement. Dossier `heygen-recrutement/`.
+
+---
+
+# Habillage HeyGen « Spécial boulangers » (9:16)
+
+`energy-market-boulangerie-9x16.mp4` (42,4 s) : même habillage, puces animées des équipements (four, pétrin,
+chambre froide, vitrine) et des 3 pièges, méthode en 3 étapes, sous-titres mot à mot, écran de fin « Spécial
+boulangers ». Dossier `heygen-boulangerie/`.
