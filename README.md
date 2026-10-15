@@ -21,3 +21,9 @@
 | 14,5 – 20,5 s | 4 étapes — « Envoyez votre facture : on analyse, on négocie, et vous décidez. » |
 | 20,5 – 25 s | 0 € / 100 % — « Zéro euro d'honoraires, et une obligation de résultat. » |
 | 25 – 30 s | CTA — « Rendez-vous sur energy-market point fr ! » |
+
+# Site JungleWatt — conseil en énergie
+
+`site-energie/index.html` : site vitrine une page (HTML/CSS/JS sans dépendance) pour l'activité de conseil en énergie
+d'Ouahiba Miloudi, construit sur le modèle de [junglecall.fr](https://junglecall.fr/) (mêmes polices, même structure de
+sections, accent ambre à la place du citron vert). À compléter : coordonnées, photo, mentions légales, envoi du formulaire.
