@@ -422,10 +422,16 @@ footer { padding-block: 4rem 2.5rem; border-top: 1px solid var(--line); margin-t
           <label><input type="radio" name="energie" id="e-gaz" value="gaz"><span>Gaz</span></label>
           <label><input type="radio" name="energie" id="e-both" value="both"><span>Les deux</span></label>
         </fieldset>
-        <div>
-          <label for="montant" class="calc-label">Facture mensuelle (€ HT)</label>
+        <div id="bloc-elec">
+          <label for="montant" class="calc-label">Facture électricité / mois HT</label>
           <div class="amount"><output id="montant-out" for="montant">2 000 €</output><small id="annuel">soit 24 000 € par an</small></div>
           <input type="range" id="montant" min="200" max="20000" step="100" value="2000">
+          <div class="ticks"><span>200 €</span><span>20 000 €</span></div>
+        </div>
+        <div id="bloc-gaz" hidden>
+          <label for="montant-gaz" class="calc-label">Facture gaz / mois HT</label>
+          <div class="amount"><output id="montant-gaz-out" for="montant-gaz">1 000 €</output><small id="annuel-gaz">soit 12 000 € par an</small></div>
+          <input type="range" id="montant-gaz" min="200" max="20000" step="100" value="1000">
           <div class="ticks"><span>200 €</span><span>20 000 €</span></div>
         </div>
         <div class="result" aria-live="polite">
@@ -529,21 +535,34 @@ footer { padding-block: 4rem 2.5rem; border-top: 1px solid var(--line); margin-t
   }
 
   // Simulateur : fourchettes indicatives d'économie selon l'énergie
-  var RANGES = { elec: [0.08, 0.18], gaz: [0.06, 0.15], both: [0.08, 0.18] };
-  var calc = document.getElementById('calc'), range = document.getElementById('montant');
-  var fmt = function (n) { return Math.round(n).toLocaleString('fr-FR') + ' €'; };
+  var RANGES = { elec: [0.08, 0.18], gaz: [0.06, 0.15] };
+  var calc = document.getElementById('calc');
+  var $ = function (id) { return document.getElementById(id); };
+  var fmt = function (n) { return Math.round(n).toLocaleString('fr-FR') + '\u00a0€'; };
   var r100 = function (n) { return Math.round(n / 100) * 100; };
+  // « Les deux » : une facture par énergie, chacune avec sa propre fourchette, puis on additionne
   function update() {
-    var m = +range.value, year = m * 12, r = RANGES[calc.energie.value];
-    var lo = r100(year * r[0]), hi = r100(year * r[1]), after = year - (lo + hi) / 2;
-    document.getElementById('montant-out').textContent = fmt(m);
-    document.getElementById('annuel').textContent = 'soit ' + fmt(year) + ' par an';
-    document.getElementById('eco').innerHTML = 'entre <em>' + fmt(lo) + '</em> et <em>' + fmt(hi) + '</em>';
-    document.getElementById('val-now').textContent = fmt(year);
-    document.getElementById('val-after').textContent = '≈ ' + fmt(r100(after));
-    document.getElementById('bar-after').style.width = (after / year * 100).toFixed(1) + '%';
+    var choix = calc.energie.value;
+    var actives = choix === 'both' ? ['elec', 'gaz'] : [choix];
+    var elecBloc = $('bloc-elec'), gazBloc = $('bloc-gaz');
+    elecBloc.hidden = actives.indexOf('elec') < 0;
+    gazBloc.hidden = actives.indexOf('gaz') < 0;
+    var year = 0, lo = 0, hi = 0;
+    actives.forEach(function (e) {
+      var id = e === 'elec' ? 'montant' : 'montant-gaz', m = +$(id).value, y = m * 12;
+      $(id + '-out').textContent = fmt(m);
+      $(e === 'elec' ? 'annuel' : 'annuel-gaz').textContent = 'soit ' + fmt(y) + ' par an';
+      year += y; lo += y * RANGES[e][0]; hi += y * RANGES[e][1];
+    });
+    lo = r100(lo); hi = r100(hi);
+    var after = year - (lo + hi) / 2;
+    $('eco').innerHTML = 'entre <em>' + fmt(lo) + '</em> et <em>' + fmt(hi) + '</em>';
+    $('val-now').textContent = fmt(year);
+    $('val-after').textContent = '≈ ' + fmt(r100(after));
+    $('bar-after').style.width = (after / year * 100).toFixed(1) + '%';
   }
-  range.addEventListener('input', update);
+  $('montant').addEventListener('input', update);
+  $('montant-gaz').addEventListener('input', update);
   calc.addEventListener('change', update);
   update();
 
