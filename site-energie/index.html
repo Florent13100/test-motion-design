@@ -47,63 +47,75 @@
 
 * { box-sizing: border-box; }
 html { scroll-behavior: smooth; }
-body { margin: 0; background: var(--paper); color: var(--ink); font-family: var(--f-body); font-size: 1rem; line-height: 1.6; -webkit-font-smoothing: antialiased; }
+html { scroll-padding-top: 72px; }
+body { margin: 0; background: var(--paper); color: var(--ink); font-family: var(--f-body); font-size: 1rem; line-height: 1.5; -webkit-font-smoothing: antialiased; }
 img { max-width: 100%; }
 a { color: inherit; }
 :focus-visible { outline: 2px solid var(--volt-ink); outline-offset: 3px; border-radius: 6px; }
 
-.wrap { max-width: 1200px; margin: 0 auto; padding-left: max(20px, env(safe-area-inset-left, 0px)); padding-right: max(20px, env(safe-area-inset-right, 0px)); }
-section { padding-block: clamp(72px, 10vw, 128px); }
+/* Gabarit repris de JungleCall : conteneur 1280px, marges 20px (mobile) / 32px, sections 96px / 144px */
+.wrap { max-width: 1280px; margin: 0 auto; padding-left: max(20px, env(safe-area-inset-left, 0px)); padding-right: max(20px, env(safe-area-inset-right, 0px)); }
+section { padding-block: 96px; }
+@media (min-width: 768px) {
+  .wrap { padding-left: max(32px, env(safe-area-inset-left, 0px)); padding-right: max(32px, env(safe-area-inset-right, 0px)); }
+  section { padding-block: 144px; }
+}
 .band { background: var(--tint); }
 
 .eyebrow { font-family: var(--f-display); font-size: .75rem; font-weight: 600; letter-spacing: .22em; text-transform: uppercase; color: var(--volt-ink); margin: 0; }
-h1, h2, h3 { font-family: var(--f-display); font-weight: 600; letter-spacing: -.035em; text-wrap: balance; margin: 0; }
-.display-xl { font-size: clamp(2.6rem, 7.4vw, 6rem); line-height: .98; }
-.display-l { font-size: clamp(2rem, 4.6vw, 3.6rem); line-height: 1.04; }
-h3 { font-size: 1.5rem; letter-spacing: -.02em; line-height: 1.15; }
+h1, h2, h3 { font-family: var(--f-display); font-weight: 500; text-wrap: balance; margin: 0; }
+.display-xl { font-size: clamp(2.75rem, 8vw, 7rem); line-height: 1; letter-spacing: -.035em; }
+.display-l { font-size: clamp(2.1rem, 5vw, 4rem); line-height: 1.05; letter-spacing: -.03em; }
+h3 { font-size: 2.25rem; line-height: 2.5rem; letter-spacing: -.03em; }
 .serif { font-family: var(--f-serif); font-style: italic; font-weight: 400; letter-spacing: -.01em; color: var(--volt-ink); }
-.lead { font-size: clamp(1.05rem, 1.6vw, 1.25rem); color: var(--sage); max-width: 34em; margin: 0; }
+.lead { font-size: 1.125rem; line-height: 1.75rem; color: var(--sage); max-width: 36rem; margin: 0; }
+@media (min-width: 768px) { .hero .lead { font-size: 1.25rem; } }
 p { margin: 0; }
 .muted { color: var(--sage); }
 
-.btn { display: inline-flex; align-items: center; gap: .55rem; padding: .9rem 1.5rem; border-radius: 999px; font-family: var(--f-display); font-weight: 600; font-size: .95rem; text-decoration: none; border: 1px solid transparent; cursor: pointer; transition: transform .2s, box-shadow .2s, background .2s; }
+.btn { display: inline-flex; align-items: center; gap: .5rem; padding: 14px 24px; border-radius: 999px; font-family: var(--f-body); font-weight: 600; font-size: .875rem; line-height: 1.25rem; text-decoration: none; border: 0; cursor: pointer; transition: transform .2s, box-shadow .2s, background .2s; }
 .btn svg { width: 16px; height: 16px; transition: transform .2s; }
 .btn:hover svg { transform: translateX(4px); }
 .btn-volt { background: var(--volt); color: var(--on-volt); box-shadow: var(--shadow-volt); }
 .btn-volt:hover { transform: translateY(-2px); }
-.btn-ghost { border-color: var(--line); color: var(--ink); background: transparent; }
+.btn-ghost { border: 1px solid var(--line); color: var(--ink); background: transparent; }
+.btn-sm { padding: 10px 20px; }
 .btn-ghost:hover { background: var(--tint); }
 
 /* En-tête */
-header.top { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 50; background: color-mix(in oklch, var(--paper) 82%, transparent); backdrop-filter: blur(12px); border-bottom: 1px solid var(--line); }
+header.top { position: fixed; top: 0; left: 0; right: 0; padding-top: env(safe-area-inset-top, 0px); z-index: 50; background: transparent; transition: background .3s, box-shadow .3s; }
+header.top.scrolled { background: color-mix(in oklch, var(--paper) 85%, transparent); backdrop-filter: blur(12px); box-shadow: 0 1px 0 var(--line); }
 .top .wrap { display: flex; align-items: center; justify-content: space-between; gap: 1rem; height: 72px; }
-.logo { display: inline-flex; align-items: center; gap: .45rem; font-family: "Outfit", var(--f-display); font-weight: 600; font-size: 1.45rem; letter-spacing: -.02em; text-decoration: none; color: var(--ink); }
-.logo img { width: auto; height: 34px; }
+/* Logo calé sur celui de JungleCall : 40px de haut (36px sur mobile), J ≈ 60 % de la hauteur */
+.logo { display: inline-flex; align-items: center; gap: .3rem; height: 40px; font-family: "Outfit", var(--f-display); font-weight: 600; font-size: 1.2rem; letter-spacing: -.02em; text-decoration: none; color: var(--ink); }
+.logo img { width: auto; height: 26px; }
+@media (max-width: 767px) { .logo { height: 36px; font-size: 1.08rem; } .logo img { height: 23px; } }
 nav.main { display: flex; gap: 2rem; }
-nav.main a { font-size: .9rem; color: var(--sage); text-decoration: none; }
+nav.main a { font-size: .875rem; line-height: 1.25rem; color: var(--sage); text-decoration: none; }
 nav.main a:hover { color: var(--ink); }
-.menu-btn { display: none; background: none; border: 0; color: var(--ink); padding: .5rem; cursor: pointer; }
+.menu-btn { display: none; background: none; border: 0; color: var(--ink); padding: 8px; border-radius: 999px; cursor: pointer; }
 @media (max-width: 960px) {
   nav.main, .top .btn { display: none; }
   .menu-btn { display: block; }
-  nav.main.open { display: flex; flex-direction: column; gap: 0; position: absolute; top: 72px; left: 0; right: 0; background: var(--paper); border-bottom: 1px solid var(--line); padding: .5rem max(20px, env(safe-area-inset-right, 0px)) 1rem max(20px, env(safe-area-inset-left, 0px)); }
+  nav.main.open { display: flex; flex-direction: column; gap: 0; position: absolute; top: calc(72px + env(safe-area-inset-top, 0px)); left: 0; right: 0; background: var(--paper); border-bottom: 1px solid var(--line); padding: .5rem max(20px, env(safe-area-inset-right, 0px)) 1rem max(20px, env(safe-area-inset-left, 0px)); }
   nav.main.open a { padding: .8rem 0; font-size: 1rem; border-bottom: 1px solid var(--line); }
 }
 .skip { position: absolute; left: -999px; }
 .skip:focus { left: 16px; top: 16px; z-index: 60; background: var(--volt); color: var(--on-volt); padding: .5rem 1rem; border-radius: 999px; }
 
 /* Hero */
-.hero { position: relative; overflow: hidden; padding-block: clamp(64px, 9vw, 120px) clamp(56px, 7vw, 96px);
+.hero { position: relative; overflow: hidden; min-height: 94vh; display: flex; align-items: center; padding-block: 112px 80px;
   background: radial-gradient(ellipse at 75% 15%, color-mix(in oklch, var(--volt) 30%, transparent), transparent 55%), linear-gradient(180deg, var(--paper) 0%, var(--tint) 100%); }
 .hero .lines { position: absolute; inset: 22% 0 auto 0; width: 100%; height: 280px; color: var(--volt-ink); opacity: .35; pointer-events: none; }
 .hero .lines path { fill: none; stroke: currentColor; stroke-width: 1.2; stroke-dasharray: 6 10; animation: drift 14s linear infinite; }
 .hero .lines path:nth-child(2) { animation-duration: 19s; opacity: .7; }
 .hero .lines path:nth-child(3) { animation-duration: 24s; opacity: .45; }
 @keyframes drift { to { stroke-dashoffset: -400px; } }
-.hero .wrap { position: relative; }
-.hero-grid { margin-top: 2.5rem; display: grid; gap: 2.5rem; grid-template-columns: 1.2fr 1fr; align-items: end; }
+.hero .wrap { position: relative; width: 100%; }
+.hero h1 { margin-top: 24px; }
+.hero-grid { margin-top: 40px; display: grid; gap: 40px; grid-template-columns: 1.2fr 1fr; align-items: end; }
 .hero-grid > * { min-width: 0; }
-.ctas { display: flex; flex-wrap: wrap; gap: 1rem; margin-top: 2rem; }
+.ctas { display: flex; flex-wrap: wrap; gap: 16px; margin-top: 32px; }
 .meter { justify-self: end; display: grid; gap: .75rem; text-align: right; }
 .bars { display: flex; align-items: flex-end; justify-content: flex-end; gap: 4px; height: 72px; }
 .bars i { display: block; width: 5px; height: 100%; border-radius: 3px; background: var(--volt); transform-origin: bottom; animation: load 1.6s ease-in-out infinite; }
@@ -122,13 +134,13 @@ nav.main a:hover { color: var(--ink); }
 .steps3 li { list-style: none; display: grid; grid-template-columns: 4rem 1fr; gap: 1rem; padding-block: 1.5rem; border-bottom: 1px solid var(--line); }
 .steps3 { padding: 0; margin: 0; }
 .num { font-family: var(--f-display); font-weight: 500; color: var(--volt-ink); font-variant-numeric: tabular-nums; }
-.steps3 b { font-family: var(--f-display); font-size: 1.6rem; font-weight: 600; letter-spacing: -.03em; display: block; }
+.steps3 b { font-family: var(--f-display); font-size: 2.25rem; line-height: 2.5rem; font-weight: 500; letter-spacing: -.03em; display: block; margin-bottom: .5rem; }
 @media (max-width: 860px) { .split { grid-template-columns: 1fr; } }
 
 /* Expertises */
-.head { display: grid; gap: 1rem; max-width: 48rem; margin-bottom: clamp(2.5rem, 5vw, 4rem); }
+.head { display: grid; gap: 24px; max-width: 56rem; margin-bottom: clamp(2.5rem, 5vw, 4rem); }
 .offers { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.25rem; }
-.offer { background: var(--card); border: 1px solid var(--line); border-radius: 28px; padding: 2rem; display: flex; flex-direction: column; gap: 1.25rem; min-width: 0; transition: transform .25s, box-shadow .25s; }
+.offer { background: var(--card); border: 1px solid var(--line); border-radius: 24px; padding: 32px; display: flex; flex-direction: column; gap: 1.25rem; min-width: 0; transition: transform .25s, box-shadow .25s; }
 .offer:hover { transform: translateY(-4px); box-shadow: var(--shadow-volt); }
 .offer .tag { align-self: flex-start; font-family: var(--f-display); font-size: .72rem; letter-spacing: .14em; text-transform: uppercase; padding: .35rem .8rem; border-radius: 999px; background: var(--volt-soft); color: var(--volt-ink); font-weight: 600; }
 .offer ul { margin: 0; padding: 0; list-style: none; display: grid; gap: .55rem; font-size: .95rem; color: var(--sage); }
@@ -138,10 +150,10 @@ nav.main a:hover { color: var(--ink); }
 @media (max-width: 960px) { .offers { grid-template-columns: 1fr; } }
 
 /* Méthode */
-.method { display: grid; grid-template-columns: repeat(5, 1fr); gap: 1px; background: var(--line); border: 1px solid var(--line); border-radius: 28px; overflow: hidden; }
+.method { display: grid; grid-template-columns: repeat(5, 1fr); gap: 1px; background: var(--line); border: 1px solid var(--line); border-radius: 24px; overflow: hidden; }
 .method div { background: var(--paper); padding: 1.75rem 1.5rem 2rem; display: grid; gap: .75rem; align-content: start; min-width: 0; }
 .method .num { font-size: 2.6rem; line-height: 1; letter-spacing: -.04em; }
-.method b { font-family: var(--f-display); font-size: 1.25rem; font-weight: 600; letter-spacing: -.02em; }
+.method b { font-family: var(--f-display); font-size: 1.5rem; line-height: 2rem; font-weight: 500; letter-spacing: -.02em; }
 .method p { font-size: .92rem; color: var(--sage); }
 @media (max-width: 960px) { .method { grid-template-columns: 1fr 1fr; } }
 @media (max-width: 560px) { .method { grid-template-columns: 1fr; } }
@@ -149,14 +161,14 @@ nav.main a:hover { color: var(--ink); }
 /* Engagements */
 .promises { display: grid; grid-template-columns: 1fr 1fr; gap: 2.5rem 3rem; }
 .promises div { display: grid; gap: .5rem; padding-top: 1.25rem; border-top: 2px solid var(--volt); min-width: 0; }
-.promises b { font-family: var(--f-display); font-size: 1.3rem; font-weight: 600; letter-spacing: -.02em; }
+.promises b { font-family: var(--f-display); font-size: 1.5rem; line-height: 2rem; font-weight: 500; letter-spacing: -.02em; }
 .promises p { color: var(--sage); }
 @media (max-width: 700px) { .promises { grid-template-columns: 1fr; } }
 
 /* Fondatrice */
 .founder { display: grid; grid-template-columns: 5fr 7fr; gap: clamp(2rem, 6vw, 5rem); align-items: center; }
 .founder > * { min-width: 0; }
-.portrait { aspect-ratio: 4 / 5; max-width: 100%; border-radius: 28px; overflow: hidden; position: relative; background: radial-gradient(circle at 30% 25%, var(--volt-soft), transparent 60%), var(--tint); border: 1px solid var(--line); display: grid; place-items: center; }
+.portrait { aspect-ratio: 4 / 5; max-width: 100%; border-radius: 24px; overflow: hidden; position: relative; background: radial-gradient(circle at 30% 25%, var(--volt-soft), transparent 60%), var(--tint); border: 1px solid var(--line); display: grid; place-items: center; }
 .portrait img { width: 100%; height: 100%; object-fit: cover; object-position: center 35%; }
 .portrait figcaption { position: absolute; left: 1rem; bottom: 1rem; right: 1rem; background: var(--paper); border-radius: 16px; padding: .8rem 1rem; font-size: .85rem; }
 .portrait figcaption b { font-family: var(--f-display); display: block; font-size: 1rem; }
@@ -175,7 +187,7 @@ nav.main a:hover { color: var(--ink); }
 .levers .ico svg { width: 20px; height: 20px; }
 .levers b { font-family: var(--f-display); font-size: 1.1rem; font-weight: 600; letter-spacing: -.02em; display: block; }
 .levers p { font-size: .92rem; color: var(--sage); }
-.calc { background: var(--card); border: 1px solid var(--line); border-radius: 28px; padding: clamp(1.5rem, 3.5vw, 2.5rem); display: grid; gap: 1.75rem; }
+.calc { background: var(--card); border: 1px solid var(--line); border-radius: 24px; padding: 32px; display: grid; gap: 1.75rem; }
 .calc-label { font-family: var(--f-display); font-size: .78rem; letter-spacing: .14em; text-transform: uppercase; color: var(--sage); font-weight: 600; margin-bottom: .75rem; display: block; }
 .chips { display: flex; flex-wrap: wrap; gap: .5rem; border: 0; padding: 0; margin: 0; }
 .chips label { cursor: pointer; position: relative; }
@@ -202,7 +214,7 @@ input[type="range"] { width: 100%; accent-color: var(--volt); margin-top: .75rem
 @media (max-width: 460px) { .compare div { grid-template-columns: 1fr 5.5rem; } .compare .track { grid-column: 1 / -1; grid-row: 2; } }
 
 /* CTA final + formulaire */
-.final { background: var(--ink); color: var(--paper); border-radius: 36px; padding: clamp(2rem, 6vw, 4.5rem); display: grid; grid-template-columns: 1fr 1fr; gap: clamp(2rem, 5vw, 4rem); position: relative; overflow: hidden; }
+.final { background: var(--ink); color: var(--paper); border-radius: 24px; padding: clamp(32px, 6vw, 72px); display: grid; grid-template-columns: 1fr 1fr; gap: clamp(2rem, 5vw, 4rem); position: relative; overflow: hidden; }
 .final > * { min-width: 0; position: relative; }
 .final::before { content: ""; position: absolute; right: -10%; top: -30%; width: 60%; aspect-ratio: 1; border-radius: 50%; background: radial-gradient(circle, color-mix(in oklch, var(--volt) 45%, transparent), transparent 65%); }
 .final .eyebrow { color: var(--volt); }
@@ -252,7 +264,7 @@ footer { padding-block: 4rem 2.5rem; border-top: 1px solid var(--line); margin-t
       <a href="#a-propos">À propos</a>
       <a href="#contact">Contact</a>
     </nav>
-    <a class="btn btn-volt" href="#contact">Parlons de vos factures <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M2 8h11M9 4l4 4-4 4"/></svg></a>
+    <a class="btn btn-volt btn-sm" href="#contact">Parlons de vos factures <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M2 8h11M9 4l4 4-4 4"/></svg></a>
     <button class="menu-btn" id="menu-btn" aria-expanded="false" aria-controls="nav" aria-label="Ouvrir le menu">
       <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
     </button>
@@ -292,7 +304,7 @@ footer { padding-block: 4rem 2.5rem; border-top: 1px solid var(--line); margin-t
     <div class="wrap split">
       <div class="reveal">
         <p class="eyebrow">Notre approche</p>
-        <h2 class="display-l" style="margin-top:1.25rem">Nous ne faisons pas seulement une étude&nbsp;! Nous construisons votre <span class="serif">stratégie énergétique.</span></h2>
+        <h2 class="display-l" style="margin-top:24px">Nous ne faisons pas seulement une étude&nbsp;! Nous construisons votre <span class="serif">stratégie énergétique.</span></h2>
       </div>
       <ol class="steps3 reveal">
         <li><span class="num">01</span><div><b>Analyser</b><p class="muted">Lecture ligne par ligne de vos factures, contrats et consommations.</p></div></li>
@@ -373,7 +385,7 @@ footer { padding-block: 4rem 2.5rem; border-top: 1px solid var(--line); margin-t
     <div class="wrap split">
       <div class="reveal">
         <p class="eyebrow">Nos engagements</p>
-        <h2 class="display-l" style="margin-top:1.25rem">Votre budget. Notre <span class="serif">exigence.</span></h2>
+        <h2 class="display-l" style="margin-top:24px">Votre budget. Notre <span class="serif">exigence.</span></h2>
       </div>
       <div class="promises reveal">
         <div><b>Indépendance</b><p>Nous ne sommes liés à aucun fournisseur. Notre seul intérêt est le vôtre.</p></div>
@@ -406,8 +418,8 @@ footer { padding-block: 4rem 2.5rem; border-top: 1px solid var(--line); margin-t
     <div class="wrap sim">
       <div class="reveal">
         <p class="eyebrow">Simulateur</p>
-        <h2 class="display-l" style="margin-top:1.25rem">Combien payez-vous <span class="serif">en trop ?</span></h2>
-        <p class="lead" style="margin-top:1.25rem">Indiquez le montant de votre facture mensuelle. Vous obtenez en quelques secondes une fourchette d'économies possibles sur un an.</p>
+        <h2 class="display-l" style="margin-top:24px">Combien payez-vous <span class="serif">en trop ?</span></h2>
+        <p class="lead" style="margin-top:24px">Indiquez le montant de votre facture mensuelle. Vous obtenez en quelques secondes une fourchette d'économies possibles sur un an.</p>
         <ul class="levers">
           <li><span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 17l6-6 4 4 6-6"/><path d="M14 9h6v6"/></svg></span><div><b>Un meilleur prix</b><p>On fait jouer la concurrence entre fournisseurs.</p></div></li>
           <li><span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M13 2 4 14h7l-1 8 9-12h-7z"/></svg></span><div><b>Le bon abonnement</b><p>On ajuste la puissance à votre usage réel.</p></div></li>
@@ -454,7 +466,7 @@ footer { padding-block: 4rem 2.5rem; border-top: 1px solid var(--line); margin-t
       <div class="final">
         <div class="reveal">
           <p class="eyebrow">Contact</p>
-          <h2 class="display-l" style="margin-top:1.25rem">Votre prochaine économie commence par une <span class="serif">facture.</span></h2>
+          <h2 class="display-l" style="margin-top:24px">Votre prochaine économie commence par une <span class="serif">facture.</span></h2>
           <p class="lead">Envoyez-nous votre dernière facture d'électricité ou de gaz. Nous revenons vers vous sous 48 heures avec une première lecture, sans engagement.</p>
         </div>
         <form id="form" class="reveal" novalidate>
@@ -506,6 +518,11 @@ footer { padding-block: 4rem 2.5rem; border-top: 1px solid var(--line); margin-t
 <script>
 (function () {
   document.documentElement.classList.add('js');
+
+  // En-tête transparent en haut de page, opaque dès qu'on défile (comme JungleCall)
+  var top = document.querySelector('header.top');
+  var onScroll = function () { top.classList.toggle('scrolled', window.scrollY > 10); };
+  window.addEventListener('scroll', onScroll, { passive: true }); onScroll();
 
   // Menu mobile
   var btn = document.getElementById('menu-btn'), nav = document.getElementById('nav');
