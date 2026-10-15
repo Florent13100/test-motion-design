@@ -26,4 +26,5 @@
 
 `site-energie/index.html` : site vitrine une page (HTML/CSS/JS sans dépendance) pour l'activité de conseil en énergie
 d'Ouahiba Miloudi, construit sur le modèle de [junglecall.fr](https://junglecall.fr/) (mêmes polices, même structure de
-sections, accent ambre à la place du citron vert). À compléter : coordonnées, photo, mentions légales, envoi du formulaire.
+sections, accent ambre à la place du citron vert), avec un simulateur d'économies et la photo d'Ouahiba (`ouahiba-miloudi.jpg`).
+À compléter : coordonnées, mentions légales, envoi du formulaire.
