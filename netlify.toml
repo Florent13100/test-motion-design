@@ -1,0 +1,3 @@
+# Déploiement Netlify du site JungleWatt : pas de build, on publie le dossier statique tel quel.
+[build]
+  publish = "site-energie"

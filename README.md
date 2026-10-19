@@ -27,4 +27,7 @@
 `site-energie/index.html` : site vitrine une page (HTML/CSS/JS sans dépendance) pour l'activité de conseil en énergie
 d'Ouahiba Miloudi, construit sur le modèle de [junglecall.fr](https://junglecall.fr/) (mêmes polices, même structure de
 sections, accent ambre à la place du citron vert), avec un simulateur d'économies, la photo d'Ouahiba (`ouahiba-miloudi.jpg`) et le « J » de JungleCall recoloré en ambre (`logo-j.png`, `favicon.png`).
-À compléter : coordonnées, mentions légales, envoi du formulaire.
+Formulaire de contact : Netlify Forms (formulaire `contact`, facture jointe en option, page `merci.html` si JavaScript est désactivé).
+Les demandes arrivent dans Netlify > Forms ; activer l'envoi par e-mail dans Forms > Form notifications.
+Déploiement : `netlify.toml` publie le dossier `site-energie` (aucune commande de build).
+À compléter : coordonnées, mentions légales.

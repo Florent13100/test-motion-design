@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Merci · JungleWatt</title>
+<meta name="robots" content="noindex">
+<link rel="icon" type="image/png" href="favicon.png">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=Outfit:wght@600&family=Space+Grotesk:wght@500&display=swap">
+<style>
+/* Page affichée après envoi du formulaire quand JavaScript est désactivé */
+:root { --paper: oklch(97.5% .01 110); --tint: oklch(93.5% .022 150); --ink: oklch(23.5% .035 160); --sage: oklch(45% .02 155); --volt: #f2b33d; --on-volt: oklch(18% .03 160); }
+@media (prefers-color-scheme: dark) { :root { --paper: oklch(17.5% .02 160); --tint: oklch(22% .03 160); --ink: oklch(95% .015 110); --sage: oklch(74% .02 150); color-scheme: dark; } }
+body { margin: 0; min-height: 100vh; display: grid; place-items: center; padding: 20px; box-sizing: border-box; background: linear-gradient(180deg, var(--paper), var(--tint)); color: var(--ink); font-family: "Inter", system-ui, sans-serif; text-align: center; }
+main { max-width: 36rem; display: grid; gap: 24px; justify-items: center; }
+.logo { display: inline-flex; align-items: center; gap: .3rem; font-family: "Outfit", sans-serif; font-weight: 600; font-size: 1.2rem; color: var(--ink); text-decoration: none; }
+.logo img { height: 26px; }
+h1 { margin: 0; font-family: "Space Grotesk", sans-serif; font-weight: 500; font-size: clamp(2.1rem, 5vw, 4rem); line-height: 1.05; letter-spacing: -.03em; }
+p { margin: 0; color: var(--sage); font-size: 1.125rem; line-height: 1.75rem; }
+a.btn { display: inline-flex; padding: 14px 24px; border-radius: 999px; background: var(--volt); color: var(--on-volt); font-weight: 600; font-size: .875rem; text-decoration: none; }
+</style>
+</head>
+<body>
+<main>
+  <a class="logo" href="/"><img src="logo-j.png" alt="" width="199" height="256">JungleWatt</a>
+  <h1>Merci, votre demande est bien envoyée.</h1>
+  <p>Nous revenons vers vous sous 48 heures avec une première lecture de votre facture.</p>
+  <a class="btn" href="/">Retour au site</a>
+</main>
+</body>
+</html>
